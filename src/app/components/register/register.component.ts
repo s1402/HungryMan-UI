@@ -1,6 +1,7 @@
 import { SharedService } from './../../services/shared.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CustomError } from 'src/app/common/enums/CustomError';
 import { User } from 'src/app/common/interfaces/User';
 import { RegisterService } from 'src/app/services/register.service';
@@ -19,7 +20,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly service: RegisterService,
-    private readonly sharedService: SharedService
+    private readonly sharedService: SharedService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -78,7 +80,7 @@ export class RegisterComponent implements OnInit {
         formControl?.updateValueAndValidity();
       }
     }
-    
+
     if (this.form.invalid) {
       return;
     }
@@ -99,6 +101,7 @@ export class RegisterComponent implements OnInit {
           });
           setTimeout(() => {
             this.showSnackBar = false;
+            this.router.navigate(["/login"]);
           }, 3000);
         }
       },
