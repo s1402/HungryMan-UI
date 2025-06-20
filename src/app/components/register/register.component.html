@@ -1,7 +1,7 @@
 <div class="register-container">
     <div class="header-section">
         <!-- Header -->
-        <h1> Please Register </h1>
+        <h1> Hey {{isOwner ? 'Owner' : 'Foodie'}} Please Register </h1>
 
         <!-- Toggle for register as restraurant owner -->
         <div class="toggle-container">
@@ -13,12 +13,12 @@
     <hr>
     <div class="form-container">
 
-        <!-- Register owner form -->
+        <!-- Register Owner/Foodie form -->
         <form [formGroup]="form" (ngSubmit)="submit()">
 
             <!-- show error/success snack-bar -->
             <app-snack-bar *ngIf="showSnackBar"></app-snack-bar>
-            <!-- Owner Name -->
+            <!-- Owner/Foodie Name -->
             <div class="form-group">
                 <label for="name"> Name </label>
                 <input type="text" formControlName="name" name="name" id="name" placeholder="First and last Name">
@@ -30,7 +30,7 @@
                 </span>
             </div>
 
-            <!-- Owner email -->
+            <!-- Owner/Foodie email -->
             <div class="form-group">
                 <label for="email"> Email </label>
                 <input type="text" formControlName="email" name="email" id="email" placeholder="Enter Email">
@@ -41,7 +41,7 @@
                 </span>
             </div>
 
-            <!-- Owner password -->
+            <!-- Owner/Foodie password -->
             <div class="form-group">
                 <label for="password"> Password </label>
                 <input type="password" formControlName="password" name="password" id="password"
@@ -148,7 +148,7 @@
             </div>
 
             <!---------------Submit btn -------------->
-            <div class="register-btn-container">
+            <div class="submit-btn-container">
                 <button type="submit" class="submit-btn">Register</button>
             </div>
 

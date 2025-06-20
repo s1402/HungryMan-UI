@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomError } from 'src/app/common/enums/CustomError';
 import { User } from 'src/app/common/interfaces/User';
-import { RegisterService } from 'src/app/services/register.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { CustomValidators } from 'src/app/validators/CustomValidators';
 
 @Component({
@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly service: RegisterService,
+    private readonly service: AuthService,
     private readonly sharedService: SharedService,
     private readonly router: Router
   ) {}
@@ -97,7 +97,7 @@ export class RegisterComponent implements OnInit {
           this.showSnackBar = true;
           this.sharedService.showSnackBar({
             isSuccess: true,
-            text: 'User Regsitered Successfully',
+            text: 'User Registered Successfully!',
           });
           setTimeout(() => {
             this.showSnackBar = false;
