@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
           });
           setTimeout(() => {
             this.showSnackBar = false;
-
+            this.router.navigate(['/']);
           }, 3000);
         }
       },

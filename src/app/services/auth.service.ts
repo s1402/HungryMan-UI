@@ -54,6 +54,31 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+   
+  isUserLoggedIn(): boolean {
+    const token = this.getToken();
+    return token !== null && token !== '';
+  }
+
+  isOwnerLoggedIn(): boolean {
+    const token = this.getToken();
+    if(token) {
+      // payload is the 2nd part of the JWT token , atob decodes base64 i.e ASCII to binary and JSON.parse converts it to object
+      const payload = JSON.parse(atob(token.split('.')[1])); 
+      return payload.role === 'owner';
+    }
+    return false;
+  }
+
+   getOwnerId(): string {
+    const token = this.getToken();
+    if(token) {
+      const payload = JSON.parse(atob(token.split('.')[1])); 
+      return payload._id;
+    }
+    return '';
+  }
+
   logout(): void {
     localStorage.removeItem('token');
   }

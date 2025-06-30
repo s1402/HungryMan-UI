@@ -13,9 +13,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FooterComponent } from './common/components/footer/footer.component';
 import { SnackBarComponent } from './common/components/snack-bar/snack-bar.component';
+import { HomeComponent } from './components/home/home.component';
+import { AddRecipeComponent } from './components/owner/add-recipe/add-recipe.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [AppComponent, RegisterComponent, LoginComponent, FooterComponent, SnackBarComponent],
+  declarations: [
+    AppComponent,
+    RegisterComponent,
+    LoginComponent,
+    FooterComponent,
+    SnackBarComponent,
+    HomeComponent,
+    AddRecipeComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -23,6 +37,10 @@ import { SnackBarComponent } from './common/components/snack-bar/snack-bar.compo
     ReactiveFormsModule,
     MatSlideToggleModule,
     HttpClientModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -30,7 +48,7 @@ import { SnackBarComponent } from './common/components/snack-bar/snack-bar.compo
         deps: [HttpClient],
       },
     }),
-    BrowserAnimationsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

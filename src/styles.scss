@@ -2,7 +2,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to right, #6a11cb, #2575fc);
+  background-color: #f0f0f0;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -21,7 +21,7 @@ input:focus,
   color: #e74c3c;
   font-size: 12px;
   margin-top: 4px;
-  display: block;
+  display: inline;
 }
 
 input.ng-invalid.ng-touched {
