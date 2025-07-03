@@ -19,6 +19,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { HeaderComponent } from './common/components/header/header.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
     SnackBarComponent,
     HomeComponent,
     AddRecipeComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatRadioModule,
+    /* Import TranslateModule with HttpLoaderFactory for translation support
+     This will load translation files from the specified path
+     The files should be named as <lang>-lang.json, e.g., en-lang.json, fr-lang.json, etc.
+     The path '../assets/i18n/' is relative to the `src` folder
+     and '-lang.json' is the suffix for the translation */
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -48,7 +57,7 @@ import { MatIconModule } from '@angular/material/icon';
         deps: [HttpClient],
       },
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

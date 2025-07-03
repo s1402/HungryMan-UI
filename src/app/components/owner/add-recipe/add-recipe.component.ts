@@ -51,16 +51,16 @@ export class AddRecipeComponent implements OnInit {
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(50),
+        Validators.maxLength(200),
       ]),
       description: new FormControl('', [
         Validators.required,
-        Validators.maxLength(50),
+        Validators.maxLength(200),
       ]),
       ingredients: this.fb.array([], Validators.required),
       steps: this.fb.array([this.fb.control('', Validators.required)]),
       tags: this.fb.array([], Validators.required),
-      imageUrl: new FormControl(''),
+      vegetarian: [false]
     });
   }
 
@@ -120,7 +120,6 @@ export class AddRecipeComponent implements OnInit {
 
     if (file) {
       this.imageFile = file;
-
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result as string;
@@ -128,7 +127,7 @@ export class AddRecipeComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-
+  
   // to avoid form submit on hitting enter
   @HostListener('document:keydown.enter', ['$event'])
   onKeyboardNavigation(event: KeyboardEvent): void {
@@ -137,7 +136,6 @@ export class AddRecipeComponent implements OnInit {
 
   submit(): void {
     this.form.markAllAsTouched();
-
     if (this.form.invalid) {
       return;
     }
@@ -149,6 +147,7 @@ export class AddRecipeComponent implements OnInit {
     formData.append('steps', JSON.stringify(this.steps.value));
     formData.append('tags', JSON.stringify(this.tags.value));
     formData.append('ownerId', this.authService.getOwnerId());
+    formData.append('vegetarian', this.vegetarian.value.toString());
 
     if (this.imageFile) {
       formData.append('image', this.imageFile);
@@ -168,6 +167,7 @@ export class AddRecipeComponent implements OnInit {
           this.imagePreview = null; // Reset image preview
           this.imageFile = null; // Reset image file
           this.showSnackBar = false;
+          this.vegetarian.setValue(false); // Reset vegetarian toggle
           this.tags.clear(); // Clear tags
           this.ingredients.clear(); // Clear ingredients
           this.steps.clear(); // Clear steps
@@ -215,6 +215,10 @@ export class AddRecipeComponent implements OnInit {
 
   get tags(): FormArray {
     return this.form.get('tags') as FormArray;
+  }
+
+  get vegetarian(): FormControl {
+    return this.form.get('vegetarian') as FormControl;
   }
 
   getStepsFormControl(): FormControl[] {

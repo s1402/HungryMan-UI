@@ -1,0 +1,41 @@
+<div class="header-container">
+    <div class="header-logo">
+        <img src="https://i.ibb.co/dJWmhqmx/logo-png.png" alt="logo-png" border="0">
+    </div>
+
+     <!-- Todo -->
+    <!-- <div *ngIf="authService.isUserLoggedIn()">
+        Hello {{ authService.getUserName() }}
+    </div> -->
+    
+    <div class="navigation-container">
+        <!-- Home -->
+        <nav> <a href="/">Home</a> </nav>
+
+        <!-- About Author -->
+        <nav> <a href="/">About</a> </nav>
+
+        <!-- My Recipes For Owner and Favourites For Foodie -->
+        <div *ngIf="authService.isUserLoggedIn()">
+            <span *ngIf="authService.isOwnerLoggedIn(); else foodie" class="owner-nav">
+                <nav> <a href="/owner/add-recipe"> Add Recipe </a> </nav>
+                <nav> <a href="/owner/add-recipe"> My Recipes </a> </nav>
+            </span>
+            <ng-template #foodie>
+                <nav> <a href="/foodie/favourites"> My Favourites </a> </nav>
+            </ng-template>
+        </div>
+        <!-- Login and Logout -->
+        <div *ngIf="authService.isUserLoggedIn(); else notLoggedIn">
+            <nav> <a href="/" (click)="authService.logout()"> Logout</a> </nav>
+        </div>
+        <ng-template #notLoggedIn>
+            <nav> <a href="/register">Register</a> </nav>
+            <nav> <a href="/login">Login</a> </nav>
+        </ng-template>
+
+        <!-- Search Recipe -->
+        <nav> <a href="/"><i class="ri-search-line"></i></a> </nav>
+    </div>
+</div>
+<hr>

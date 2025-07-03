@@ -1,0 +1,51 @@
+.header-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.navigation-container {
+    display: flex;
+    align-items: center;
+
+    nav {
+        margin-left: 12px;
+
+        a {
+            text-decoration: none;
+            color: black;
+            font-weight: 700;
+            margin: 0 10px;
+            transition: color 0.3s;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+
+            &:hover {
+                color: #007BFF;
+            }
+
+            i {
+                font-size: 16px;
+            }
+        }
+    }
+}
+
+.owner-nav {
+    display: flex;
+}
+
+.header-logo {
+    margin-left: -90px;
+
+    img {
+
+        width: 150px;
+        height: 120px;
+        border-radius: 50%;
+    }
+}
+
+hr {
+    color: #333;
+}

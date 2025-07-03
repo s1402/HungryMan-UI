@@ -33,7 +33,7 @@
     "invalidPassword": "Enter a strong password with at least 6 characters digits,alphanumerical and a special character",
     "minimumLength" :"Minimum 3 characters required",
     "maximumLength": "Maximum 20 characters allowed",
-    "maximumLengthFifty": "Maximum 50 characters allowed",
+    "maximumLengthTwoHundred": "Maximum 200 characters allowed",
     "businessNameRequired":"Business name is required",
     "categoryRequired":"Category is required",
     "priceRequired":"Price is required",

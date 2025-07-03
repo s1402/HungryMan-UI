@@ -21,7 +21,7 @@
                 <span *ngIf="title?.touched && title?.errors" class="invalid-input">
                     <span *ngIf="title?.errors?.['required']">{{"error.recipeNameRequired" | translate}}</span>
                     <span *ngIf="title?.errors?.['minlength']">{{"error.minimumLength" | translate}}</span>
-                    <span *ngIf="title?.errors?.['maxlength']">{{"error.maximumLengthFifty" | translate}}</span>
+                    <span *ngIf="title?.errors?.['maxlength']">{{"error.maximumLengthTwoHundred" | translate}}</span>
                 </span>
             </div>
 
@@ -33,12 +33,12 @@
                 <!--Form error from UI -->
                 <span *ngIf="description?.touched && description?.errors" class="invalid-input">
                     <span *ngIf="description?.errors?.['required']">{{"error.descriptionRequired" | translate}}</span>
-                    <span *ngIf="description?.errors?.['maxlength']">{{"error.maximumLengthFifty" | translate}}</span>
+                    <span *ngIf="description?.errors?.['maxlength']">{{"error.maximumLengthTwoHundred" | translate}}</span>
                 </span>
             </div>
 
             <!-- ingredients -->
-            <p>Ingredients</p>
+            <p class="ingredients">Ingredients</p>
             <mat-form-field class="chip-form-group"
                 [ngClass]="{'invalid-chip' : ingredients.touched && ingredients.errors} " appearance="fill">
                 <mat-chip-grid #ingredientChipList aria-label="Ingredients list">
@@ -70,7 +70,7 @@
             </div>
 
             <!-- tags -->
-            <p>Tags</p>
+            <p class="tags">Tags</p>
             <mat-form-field class="chip-form-group" appearance="fill" [ngClass]="{'invalid-chip' : tags.touched && tags.errors} ">
                 <mat-chip-grid #tagChipList aria-label="tags list">
                     <mat-chip class="mat-chip" *ngFor="let tag of tags.controls; let i = index" [removable]="true"
@@ -85,8 +85,14 @@
                     (matChipInputTokenEnd)="addTag($event)" [disabled]="tags.length >= maxTagValue" />
             </mat-form-field>
 
+            <!-- vegetarian option -->
+            <mat-radio-group [formControl] = "vegetarian" class="radio-group" defaultValue="false">
+                <mat-radio-button [value]=true>Veg</mat-radio-button>
+                <mat-radio-button [value]=false>Non Veg</mat-radio-button>
+            </mat-radio-group>
+
             <!-- image upload -->
-            <p>Recipe Image</p>
+            <p class="images">Recipe Image</p>
             <div class="form-group image-group">
                 <input type="file" accept="image/*" (change)="onImageSelected($event)" />
                 <div class="preview" *ngIf="imagePreview">

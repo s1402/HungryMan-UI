@@ -2,11 +2,13 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f0f0f0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+}
+
+app-login , app-register , app-add-recipe {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 input:focus,

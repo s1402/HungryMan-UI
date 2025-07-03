@@ -1,1 +1,23 @@
-<p>home works!</p>
+<div class="home-container">
+  <div class="recipes-wrapper">
+    <div class="recipe-card" *ngFor="let recipe of recipes">
+      <div class="recipe-image" [style.backgroundImage]="'url(' + recipe.image?.url + ')'">
+        <div class="tag-overlay">
+          <span class="tag" *ngFor="let tag of recipe.tags">{{ tag }}</span>
+        </div>
+      </div>
+
+      <div class="recipe-content">
+        <h2 class="recipe-title">{{ recipe.title }}</h2>
+      </div>
+
+      <div class="meta-info">
+        <span class="veg-indicator" [ngClass]="{ 'veg': recipe.vegetarian, 'non-veg': !recipe.vegetarian }"></span>
+        <div class="analytics-container">
+          <span class="views"><i class="material-icons">visibility</i> {{ recipe.views }}</span>
+          <span class="favorites"><i class="material-icons">favorite</i> {{ recipe.favoritesCount }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
