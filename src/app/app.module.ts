@@ -21,6 +21,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { HeaderComponent } from './common/components/header/header.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { RecipeDetailsComponent } from './common/components/recipe-details/recipe-details.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MatRadioModule } from '@angular/material/radio';
     HomeComponent,
     AddRecipeComponent,
     HeaderComponent,
+    RecipeDetailsComponent,
   ],
   imports: [
     BrowserModule,

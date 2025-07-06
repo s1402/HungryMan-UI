@@ -1,0 +1,52 @@
+<!-- Recipe Details -->
+<div class="recipe-details-container">
+  <div class="image-section">
+    <img [src]="recipeDetails?.image?.url" alt="{{ recipeDetails?.title }}" />
+  </div>
+
+  <div class="content-section">
+    <h1 class="recipe-title">{{ recipeDetails?.title }}</h1>
+
+    <div class="tags">
+      <span class="tag" *ngFor="let tag of recipeDetails?.tags">{{ tag }}</span>
+      <span class="veg-indicator" [ngClass]="recipeDetails?.vegetarian ? 'veg' : 'non-veg'"></span>
+    </div>
+
+    <div class="stats">
+      <span><i class="material-icons">visibility</i> {{ recipeDetails?.views }}</span>
+      <span><i class="material-icons">favorite</i> {{ recipeDetails?.favoritesCount }}</span>
+    </div>
+
+    <p class="description">{{ recipeDetails?.description }}</p>
+
+    <h3>Ingredients</h3>
+    <ul>
+      <li *ngFor="let ing of recipeDetails?.ingredients">{{ ing }}</li>
+    </ul>
+
+    <h3>Steps</h3>
+    <ol>
+      <li *ngFor="let step of recipeDetails?.steps">{{ step }}</li>
+    </ol>
+  </div>
+</div>
+
+<hr>
+
+<!-- Owner / Restaurant Details -->
+<div class="owner-section" *ngIf="ownerDetails">
+  <h2>About the Restaurant</h2>
+  <div class="owner-content">
+    <img class="owner-image" [src]="ownerDetails.image?.url" alt="Restaurant Logo" />
+    <div class="owner-info">
+      <p><strong>Restaurant Name:</strong> {{ ownerDetails.restaurantName }}</p>
+      <p><strong>Owner Name:</strong> {{ ownerDetails.name }}</p>
+      <p><strong>Email:</strong> {{ ownerDetails.email }}</p>
+      <p><strong>Address:</strong>
+        {{ ownerDetails.address?.street }}, {{ ownerDetails.address?.city }},
+        {{ ownerDetails.address?.state }} - {{ ownerDetails.address?.pincode }},
+        {{ ownerDetails.address?.country }}
+      </p>
+    </div>
+  </div>
+</div>

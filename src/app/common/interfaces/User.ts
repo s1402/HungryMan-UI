@@ -9,6 +9,31 @@ export interface User {
     pincode: string;
     country: string;
   };
+  image?: ImageUrl;
   restaurantName?: string;
   isOwner?: boolean;
+}
+
+export interface RecipeDetails {
+  title: string;
+  description: string;
+  favoritesCount: number
+  ingredients: string[];
+  steps: string[];
+  tags: string[];
+  instructions: string;
+  image: ImageUrl;
+  ownerId?: string; 
+  createdAt?: Date; 
+  updatedAt?: Date; 
+  ratings?: string[];
+  vegetarian: boolean;
+  views?: number;
+  _id: string;
+  __v: number 
+}
+
+export interface ImageUrl {
+  url: string;
+  public_id: string;
 }

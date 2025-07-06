@@ -6,6 +6,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AddRecipeComponent } from './components/owner/add-recipe/add-recipe.component';
 import { AuthGuard } from './guards/auth.guard';
 import { OwnerGuard } from './guards/owner.guard';
+import { RecipeDetailsComponent } from './common/components/recipe-details/recipe-details.component';
 
 const routes: Routes = [
   {
@@ -23,10 +24,14 @@ const routes: Routes = [
   {
     component: AddRecipeComponent,
     path: 'owner/add-recipe',
-    canActivate: [AuthGuard,OwnerGuard]
+    canActivate: [AuthGuard, OwnerGuard],
   },
-
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  {
+    component: RecipeDetailsComponent,
+    path: 'recipe/:title/:id',
+    canActivate: [AuthGuard],
+  },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

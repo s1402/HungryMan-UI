@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { RecipeDetails } from '../common/interfaces/User';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,21 @@ export class RecipeService {
         return [];
       }),
       catchError((error) => throwError(() => error))
+    );
+  }
+
+  getRecipeById(id: string): Observable<RecipeDetails|null> {
+    return this.http.get(this.commonFoodieUrl + '/' + id, { headers: this.httpHeaders }).pipe(
+      map((response: any) => {
+        if (response) {
+          return response;
+        }
+        return null;
+      }),
+      catchError((error) => {
+        console.error('Error fetching recipe by ID:', error);
+        return throwError(() => error);
+      })
     );
   }
 }

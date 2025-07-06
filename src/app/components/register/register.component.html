@@ -67,6 +67,18 @@
                 </span>
             </div>
 
+            <!-- Owner Restraurant Image -->
+            <div class="form-group" *ngIf="isOwner">
+                <label class="images">Restraurant Image</label>
+                <div class="form-group image-group">
+                    <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+                    <div class="preview" *ngIf="imagePreview">
+                        <p>Preview:</p>
+                        <img [src]="imagePreview" alt="Image preview" />
+                    </div>
+                </div>
+            </div>
+
             <!---------------Owner address -------------->
             <h3 *ngIf="isOwner" class="address-header">Address</h3>
 

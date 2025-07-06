@@ -19,10 +19,10 @@ export class AuthService {
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  register(user: User, isOwner = false): Observable<Object> {
+  register(user: FormData, isOwner = false): Observable<Object> {
     const url = isOwner ? this.ownerRegisterUrl : this.foodieRegisterUrl;
     return this.httpClient
-      .post(url, JSON.stringify(user), { headers: this.httpHeaders })
+      .post(url,user)
       .pipe(
         map((response: any) => {
           if (response && response['message']) {
@@ -49,6 +49,19 @@ export class AuthService {
         }),
         catchError((error) => throwError(() => error))
       );
+  }
+
+  getOwnerById(ownerId: string): Observable<User> {
+    const url = `http://localhost:5000/api/login/${ownerId}`;
+    return this.httpClient.get(url,{ headers: this.httpHeaders}).pipe(
+      map((response: any) => {
+        if(response){
+          return response;
+        } 
+        return null;
+      }) ,
+      catchError((error)=> throwError(()=> error))
+    );
   }
 
   getToken(): string | null {

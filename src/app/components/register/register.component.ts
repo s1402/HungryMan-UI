@@ -16,6 +16,8 @@ export class RegisterComponent implements OnInit {
   form: FormGroup = this.fb.group({});
   isOwner = false;
   showSnackBar = false;
+  imageFile: File | null = null;
+  imagePreview: string | null = null;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -84,13 +86,28 @@ export class RegisterComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const payload: User = this.isOwner
-      ? this.form.value
-      : {
-          name: this.name?.value,
-          email: this.email?.value,
-          password: this.password?.value,
-        };
+
+    const payload = new FormData();
+    payload.append('name', this.name?.value);
+    payload.append('email', this.email?.value);
+    payload.append('password', this.password?.value);
+
+    if (this.isOwner) {
+      payload.append('restaurantName', this.restaurantName?.value);
+      const address = {
+        street: this.street?.value,
+        city: this.city?.value,
+        state: this.state?.value,
+        pincode: this.pincode?.value,
+        country: this.country?.value,
+      };
+      payload.append('address', JSON.stringify(address));
+
+      if (this.imageFile) {
+        payload.append('image', this.imageFile);
+      }
+    }
+
     this.service.register(payload, this.isOwner).subscribe({
       next: (response) => {
         if (response) {
@@ -101,7 +118,7 @@ export class RegisterComponent implements OnInit {
           });
           setTimeout(() => {
             this.showSnackBar = false;
-            this.router.navigate(["/login"]);
+            this.router.navigate(['/login']);
           }, 3000);
         }
       },
@@ -125,6 +142,20 @@ export class RegisterComponent implements OnInit {
         }, 3000);
       },
     });
+  }
+
+  onImageSelected(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+    const file = fileInput.files?.[0];
+
+    if (file) {
+      this.imageFile = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   get name() {

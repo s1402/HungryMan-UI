@@ -30,3 +30,25 @@ input.ng-invalid.ng-touched {
   border-color: #e74c3c !important;
   box-shadow: 0 0 5px rgba(225, 0, 0, 0.2) !important;
 }
+
+.image-group {
+  margin-bottom: 1rem;
+
+  input[type='file'] {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .preview {
+    img {
+      max-width: 300px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+hr {
+    color: #333;
+}

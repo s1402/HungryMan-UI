@@ -40,11 +40,6 @@ hr {
     gap: 0.5rem;
     margin-top: 0.5rem;
 
-    label {
-        font-weight: 500;
-        color: #444;
-    }
-
     input {
         padding: 10px;
         border-radius: 5px;
@@ -57,6 +52,11 @@ hr {
             outline: none;
         }
     }
+}
+
+label {
+    font-weight: 500;
+    color: #444;
 }
 
 .address-header {
