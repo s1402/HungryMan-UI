@@ -1,7 +1,17 @@
+import { FavoritesService } from 'src/app/services/favorites.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../common/interfaces/User';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { RecipeDetails, User } from '../common/interfaces/User';
+import {
+  catchError,
+  from,
+  map,
+  Observable,
+  of,
+  switchMap,
+  throwError,
+} from 'rxjs';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,21 +27,23 @@ export class AuthService {
     'Access-Control-Allow-Origin': '*',
   });
 
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(
+    private readonly httpClient: HttpClient,
+    private readonly favoriteService: FavoritesService,
+    private readonly tokenService: TokenService
+  ) {}
 
   register(user: FormData, isOwner = false): Observable<Object> {
     const url = isOwner ? this.ownerRegisterUrl : this.foodieRegisterUrl;
-    return this.httpClient
-      .post(url,user)
-      .pipe(
-        map((response: any) => {
-          if (response && response['message']) {
-            return true;
-          }
-          return false;
-        }),
-        catchError((error) => throwError(() => error))
-      );
+    return this.httpClient.post(url, user).pipe(
+      map((response: any) => {
+        if (response && response['message']) {
+          return true;
+        }
+        return false;
+      }),
+      catchError((error) => throwError(() => error))
+    );
   }
 
   login(user: User, isOwner = false): Observable<Object> {
@@ -39,13 +51,26 @@ export class AuthService {
     return this.httpClient
       .post(url, JSON.stringify(user), { headers: this.httpHeaders })
       .pipe(
-        map((response: any) => {
+        switchMap((response: any) => {
           if (response && response['token']) {
             // add the token in local storage
             localStorage.setItem('token', response['token']);
-            return true;
+            // if its a foodie , add favorites in local storage
+            if (!isOwner) {
+              return from(this.favoriteService.getFavorites()).pipe(
+                switchMap((favorites) => {
+                  localStorage.setItem('favorites', JSON.stringify(favorites));
+                  return of(true);
+                }),
+                catchError((error) => {
+                  localStorage.setItem('favorites', JSON.stringify([]));
+                  return of(true);
+                })
+              );
+            }
+            return of(true); // If owner
           }
-          return false;
+          return of(false);
         }),
         catchError((error) => throwError(() => error))
       );
@@ -53,46 +78,23 @@ export class AuthService {
 
   getOwnerById(ownerId: string): Observable<User> {
     const url = `http://localhost:5000/api/login/${ownerId}`;
-    return this.httpClient.get(url,{ headers: this.httpHeaders}).pipe(
+    return this.httpClient.get(url, { headers: this.httpHeaders }).pipe(
       map((response: any) => {
-        if(response){
+        if (response) {
           return response;
-        } 
+        }
         return null;
-      }) ,
-      catchError((error)=> throwError(()=> error))
+      }),
+      catchError((error) => throwError(() => error))
     );
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  isUserLoggedIn(): boolean {
-    const token = this.getToken();
-    return token !== null && token !== '';
-  }
-
-  isOwnerLoggedIn(): boolean {
-    const token = this.getToken();
-    if (token) {
-      // payload is the 2nd part of the JWT token , atob decodes base64 i.e ASCII to binary and JSON.parse converts it to object
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.role === 'owner';
-    }
-    return false;
-  }
-
-  getOwnerId(): string {
-    const token = this.getToken();
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload._id;
-    }
-    return '';
-  }
-
   logout(): void {
+    const isOwner = this.tokenService.isOwnerLoggedIn();
     localStorage.removeItem('token');
+    // if its a foodie , remove favorites from local storage
+    if (!isOwner) {
+      localStorage.removeItem('favorites');
+    }
   }
 }

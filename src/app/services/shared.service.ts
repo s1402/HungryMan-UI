@@ -4,19 +4,27 @@ import { SnackBarDetails } from '../common/interfaces/Snackbar';
 import { RecipeDetails } from '../common/interfaces/User';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SharedService {
+  constructor() {}
 
-  constructor() { }
-
-  private snackBarSubject: BehaviorSubject<SnackBarDetails> = new BehaviorSubject<SnackBarDetails>({ isSuccess: false , text: ''});
-  private recipeDetails: BehaviorSubject<RecipeDetails|null> = new BehaviorSubject<RecipeDetails|null>(null);
+  private snackBarSubject: BehaviorSubject<SnackBarDetails> =
+    new BehaviorSubject<SnackBarDetails>({ isSuccess: false, text: '' });
+  private recipeDetails: BehaviorSubject<RecipeDetails | null> =
+    new BehaviorSubject<RecipeDetails | null>(null);
+  private isSearchActive: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  private isFavoriteActive: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   snackBar$: Observable<SnackBarDetails> = this.snackBarSubject.asObservable();
-  recipeDetails$: Observable<RecipeDetails|null> = this.recipeDetails.asObservable();
+  recipeDetails$: Observable<RecipeDetails | null> =
+    this.recipeDetails.asObservable();
+  isSearchActive$: Observable<boolean> = this.isSearchActive.asObservable();
+  isFavoriteActive$: Observable<boolean> = this.isFavoriteActive.asObservable();
 
-  showSnackBar(snackBarDetails: SnackBarDetails): void{ 
+  showSnackBar(snackBarDetails: SnackBarDetails): void {
     this.snackBarSubject.next(snackBarDetails);
   }
 
@@ -24,8 +32,16 @@ export class SharedService {
     this.recipeDetails.next(recipeDetails);
   }
 
-  getRecipeDetails(): RecipeDetails|null {
+  getRecipeDetails(): RecipeDetails | null {
     return this.recipeDetails.getValue();
+  }
+
+  setSearchActive(isActive: boolean): void {
+    this.isSearchActive.next(isActive);
+  }
+
+  setIsFavoriteActive(isActive: boolean): void {
+    this.isFavoriteActive.next(isActive);
   }
 
   clearRecipeDetails(): void {
