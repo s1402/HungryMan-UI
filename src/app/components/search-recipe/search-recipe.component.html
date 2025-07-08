@@ -1,0 +1,25 @@
+<div class="search-recipe-container">
+    <div class="search-recipe-header">
+        <h1> Search Recipes</h1>
+    </div>
+
+    <!-- Auto Complete Search Bar -->
+    <div class="search-input">
+        <input type="text" placeholder="Search by recipe name or ingredients" [(ngModel)]="searchInput"
+            (ngModelChange)="onSearch()">
+    </div>
+
+    <!-- Search Results -->
+    <div class="recipes-container" *ngIf="showDropDown">
+        <ul *ngIf="recipes.length > 0; else noRecipe " class="dropdown">
+            <li *ngFor="let recipe of recipes" (click)="onSelectRecipe(recipe)">
+                {{recipe.title}}
+            </li>
+        </ul>
+        <ng-template #noRecipe>
+            <li class="no-data">
+                No Recipes Found 😟
+            </li>
+        </ng-template>
+    </div>
+</div>

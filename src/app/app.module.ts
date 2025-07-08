@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HeaderComponent } from './common/components/header/header.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { RecipeDetailsComponent } from './common/components/recipe-details/recipe-details.component';
+import { SearchRecipeComponent } from './components/search-recipe/search-recipe.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { RecipeDetailsComponent } from './common/components/recipe-details/recip
     AddRecipeComponent,
     HeaderComponent,
     RecipeDetailsComponent,
+    SearchRecipeComponent,
   ],
   imports: [
     BrowserModule,

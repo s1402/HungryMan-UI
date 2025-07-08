@@ -98,3 +98,32 @@
     background-color: #d32f2f;
   }
 }
+
+i.ri-arrow-down-wide-line {
+  z-index: 1000;
+  position: fixed;
+  top: 36%;    
+  right: 50%;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+
+  transition: color 0.3s ease;
+  &:hover {
+    color: #1aaa55;
+  }
+  &:active {
+    color: #0d8a44;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 170, 85, 0.2);
+  }
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(26, 170, 85, 0.2);
+  }
+  &:focus:not(:focus-visible) {
+    box-shadow: none;
+  }
+}

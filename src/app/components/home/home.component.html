@@ -1,4 +1,4 @@
-<div class="home-container">
+<div class="home-container" [ngClass]="{ 'search-active': isSearchActive }">
   <div class="recipes-wrapper">
     <div class="recipe-card" *ngFor="let recipe of recipes" (click)="selectRecipe(recipe)">
       <div class="recipe-image" [style.backgroundImage]="'url(' + recipe.image.url + ')'">
@@ -20,4 +20,9 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="isSearchActive">
+  <i class="ri-arrow-down-wide-line" (click)="onClickChevron()"></i>
+  <app-search-recipe></app-search-recipe>
 </div>

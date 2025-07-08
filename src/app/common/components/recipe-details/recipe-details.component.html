@@ -1,7 +1,26 @@
 <!-- Recipe Details -->
 <div class="recipe-details-container">
-  <div class="image-section">
-    <img [src]="recipeDetails?.image?.url" alt="{{ recipeDetails?.title }}" />
+  <!-- show error/success snack-bar -->
+<app-snack-bar *ngIf="showSnackBar"></app-snack-bar>
+
+  <div class="image-container">
+    <!-- Recipe Image -->
+    <div class="image-section">
+      <img [src]="recipeDetails?.image?.url" alt="{{ recipeDetails?.title }}" />
+    </div>
+
+    <!-- Add to favorites -->
+    <button class="favorites" (click)="updateFavorites()">
+      <p *ngIf="!isFavorite; else notFavorite">
+        Add to favorites
+      </p>
+      <ng-template #notFavorite>
+        <p>
+          Remove from favorites
+        </p>
+
+      </ng-template>
+    </button>
   </div>
 
   <div class="content-section">
@@ -14,7 +33,7 @@
 
     <div class="stats">
       <span><i class="material-icons">visibility</i> {{ recipeDetails?.views }}</span>
-      <span><i class="material-icons">favorite</i> {{ recipeDetails?.favoritesCount }}</span>
+      <span [ngStyle]="{ 'color': isFavorite ? '#1aaa55' : '#888'}"><i class="material-icons">favorite</i> {{ recipeDetails?.favoritesCount }}</span>
     </div>
 
     <p class="description">{{ recipeDetails?.description }}</p>

@@ -37,3 +37,7 @@ export interface ImageUrl {
   url: string;
   public_id: string;
 }
+
+export interface MessageResponse {
+    message: string
+}

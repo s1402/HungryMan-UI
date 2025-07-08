@@ -1,0 +1,75 @@
+.search-recipe-container {
+  font-family: 'Inter', sans-serif;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  width: 100vw;
+  height: 200vh;//  needs to fixed for responsivene
+  position: fixed;
+  top:40%;
+  left: 0;
+  z-index: 2000;
+  overflow-y: scroll;
+}
+
+.search-recipe-header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.search-input {
+  display: flex;
+  justify-content: center;
+  margin: 0 1rem;
+
+  input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: #1aaa55;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(26, 170, 85, 0.1);
+    }
+  }
+}
+
+.recipes-container {
+  margin-top: 1rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.dropdown {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #f4f4f4;
+    }
+  }
+}
+
+.no-data {
+  padding: 1rem;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}

@@ -19,6 +19,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AuthService } from 'src/app/services/auth.service';
 import { CustomError } from 'src/app/common/enums/CustomError';
 import { SharedService } from 'src/app/services/shared.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-add-recipe',
@@ -39,7 +40,8 @@ export class AddRecipeComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private readonly recipeService: RecipeService,
     private readonly authService: AuthService,
-    private readonly sharedService: SharedService
+    private readonly sharedService: SharedService,
+    private readonly tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
@@ -146,7 +148,7 @@ export class AddRecipeComponent implements OnInit {
     formData.append('ingredients', JSON.stringify(this.ingredients.value));
     formData.append('steps', JSON.stringify(this.steps.value));
     formData.append('tags', JSON.stringify(this.tags.value));
-    formData.append('ownerId', this.authService.getOwnerId());
+    formData.append('ownerId', this.tokenService.getOwnerId());
     formData.append('vegetarian', this.vegetarian.value.toString());
 
     if (this.imageFile) {
