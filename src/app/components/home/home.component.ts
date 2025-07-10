@@ -29,17 +29,42 @@ export class HomeComponent implements OnInit, OnDestroy {
     ]).subscribe(([searchActive, favoriteActive, myRecipesActive]) => {
       this.isSearchActive = searchActive;
 
-      if (favoriteActive) {
-        const favRecipes = localStorage.getItem('favorites') || '[]';
-        this.recipes = JSON.parse(favRecipes);
-      } else if (myRecipesActive) {
-        const myRecipes = localStorage.getItem('myRecipes') || '[]';
-        this.recipes = JSON.parse(myRecipes);
-      } else {
+      if (!this.isSearchActive) {
+        // fetch all recipes if search is not active
         this.recipeService.getAllRecipes().subscribe({
           next: (response: any) => {
             this.recipes = response;
             console.log('Recipes fetched successfully:', this.recipes);
+            if (favoriteActive) {
+              const favRecipeIds = localStorage.getItem('favorites') || '[]';
+              const favRecipeIdArr: string[] = JSON.parse(favRecipeIds);
+              const filteredRecipes: RecipeDetails[] = [];
+              // Filter the fav recipes
+              this.recipes.forEach((recipeDetails: RecipeDetails) => {
+                const isRecipeFav = favRecipeIdArr.includes(recipeDetails._id);
+                if (isRecipeFav) {
+                  filteredRecipes.push(recipeDetails);
+                }
+              });
+              this.recipes = [...filteredRecipes];
+              console.log(
+                'Favorite Recipes fetched successfully:',
+                this.recipes
+              );
+            } else if (myRecipesActive) {
+              const myRecipeIds = localStorage.getItem('myRecipes') || '[]';
+              const myRecipeIdArr: string[] = JSON.parse(myRecipeIds);
+              const filteredRecipes: RecipeDetails[] = [];
+              // Filter the recipes added by logged in owner
+              this.recipes.forEach((recipeDetails: RecipeDetails) => {
+                const isRecipeOwned = myRecipeIdArr.includes(recipeDetails._id);
+                if (isRecipeOwned) {
+                  filteredRecipes.push(recipeDetails);
+                }
+              });
+              this.recipes = [...filteredRecipes];
+              console.log('My Recipes fetched successfully:', this.recipes);
+            }
           },
           error: (error: any) => {
             console.error('Error fetching recipes:', error);

@@ -87,34 +87,34 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
         next: (messageResponse: MessageResponse) => {
           console.log(messageResponse);
           if (messageResponse) {
-            let existingFavorites = localStorage.getItem('favorites') || '[]';
-            let existingFavoritesArr: RecipeDetails[] =
-              JSON.parse(existingFavorites);
+            let existingFavoriteIds = localStorage.getItem('favorites') || '[]';
+            let existingFavoriteIdsArr: string[] =
+              JSON.parse(existingFavoriteIds);
 
             // recipe is added to favorite
             if (!this.isFavorite) {
-              if (existingFavorites && this.recipeDetails) {
-                // add recipe in favorites localstorage
-                existingFavoritesArr.push(this.recipeDetails);
+              if (existingFavoriteIds && this.recipeDetails) {
+                // add recipe id in favorites localstorage
+                existingFavoriteIdsArr.push(this.recipeDetails._id);
                 localStorage.setItem(
                   'favorites',
-                  JSON.stringify(existingFavoritesArr)
+                  JSON.stringify(existingFavoriteIdsArr)
                 );
                 this.recipeDetails.favoritesCount += 1;
               }
             } else {
               // recipe is removed from favorite
-              if (existingFavorites && this.recipeDetails) {
-                let index = existingFavoritesArr.findIndex(
-                  (val: RecipeDetails) => val._id === this.recipeDetails?._id
+              if (existingFavoriteIds && this.recipeDetails) {
+                let index = existingFavoriteIdsArr.findIndex(
+                  (id: string) => id === this.recipeDetails?._id
                 );
 
                 // remove recipe from favorites in localstorage
-                existingFavoritesArr.splice(index, 1);
+                existingFavoriteIdsArr.splice(index, 1);
 
                 localStorage.setItem(
                   'favorites',
-                  JSON.stringify(existingFavoritesArr)
+                  JSON.stringify(existingFavoriteIdsArr)
                 );
                 this.recipeDetails.favoritesCount -= 1;
               }
@@ -141,14 +141,14 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
   }
 
   isCurrentRecipeFavorite(recipeId: string): boolean {
-    const storedFav = localStorage.getItem('favorites');
-    if (!storedFav) {
+    const storedFavRecipeIds = localStorage.getItem('favorites');
+    if (!storedFavRecipeIds) {
       return false;
     }
 
     try {
-      const favorites: [] = JSON.parse(storedFav);
-      return favorites.some((el: RecipeDetails) => el._id === recipeId);
+      const storedFavRecipeIdsArr: string[] = JSON.parse(storedFavRecipeIds);
+      return storedFavRecipeIdsArr.some((id: string) => id === recipeId);
     } catch (error) {
       console.error('Error parsing the json', error);
       return false;

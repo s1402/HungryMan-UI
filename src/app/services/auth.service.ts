@@ -57,11 +57,15 @@ export class AuthService {
           if (response && response['token']) {
             // add the token in local storage
             localStorage.setItem('token', response['token']);
-            // if its a foodie , add favorites in local storage
+            // if its a foodie , add favorite recipe's IdS in local storage
             if (!isOwner) {
               return from(this.favoriteService.getFavorites()).pipe(
-                switchMap((favorites) => {
-                  localStorage.setItem('favorites', JSON.stringify(favorites));
+                switchMap((favorites: RecipeDetails[]) => {
+                  let favRecipeIds: string[] = [];
+                  favorites.forEach((favorite: RecipeDetails) => {
+                    favRecipeIds.push(favorite._id);
+                  }) 
+                  localStorage.setItem('favorites', JSON.stringify(favRecipeIds));
                   return of(true);
                 }),
                 catchError((error) => {
@@ -73,8 +77,12 @@ export class AuthService {
               // if its a owner , add recipes by owner in local storage
               const ownerId = this.tokenService.getOwnerId();
               return this.recipeService.getRecipesByOwner(ownerId).pipe(
-                switchMap((recipes: any) => {
-                  localStorage.setItem('myRecipes', JSON.stringify(recipes));
+                switchMap((recipes: RecipeDetails[]) => {
+                  let myRecipeIds: string[] = [];
+                  recipes.forEach((recipe: RecipeDetails) => {
+                    myRecipeIds.push(recipe._id);
+                  }) 
+                  localStorage.setItem('myRecipes', JSON.stringify(myRecipeIds));
                   return of(true);
                 }),
                 catchError(() => {
@@ -109,6 +117,8 @@ export class AuthService {
     // if its a foodie , remove favorites from local storage
     if (!isOwner) {
       localStorage.removeItem('favorites');
+    } else {
+      localStorage.removeItem('myRecipes');
     }
   }
 }

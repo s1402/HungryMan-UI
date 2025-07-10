@@ -14,6 +14,7 @@ export class FavoritesService {
     private readonly tokenService: TokenService
   ) {}
 
+  // Gets the favorite recipes by foodie
   async getFavorites(): Promise<RecipeDetails[]> {
     try {
       const response = await firstValueFrom(
