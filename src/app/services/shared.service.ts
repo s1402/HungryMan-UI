@@ -17,12 +17,15 @@ export class SharedService {
     new BehaviorSubject<boolean>(false);
   private isFavoriteActive: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
+  private isMyRecipesActive: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   snackBar$: Observable<SnackBarDetails> = this.snackBarSubject.asObservable();
   recipeDetails$: Observable<RecipeDetails | null> =
     this.recipeDetails.asObservable();
   isSearchActive$: Observable<boolean> = this.isSearchActive.asObservable();
   isFavoriteActive$: Observable<boolean> = this.isFavoriteActive.asObservable();
+  isMyRecipesActive$: Observable<boolean> = this.isMyRecipesActive.asObservable();
 
   showSnackBar(snackBarDetails: SnackBarDetails): void {
     this.snackBarSubject.next(snackBarDetails);
@@ -42,6 +45,10 @@ export class SharedService {
 
   setIsFavoriteActive(isActive: boolean): void {
     this.isFavoriteActive.next(isActive);
+  }
+
+  setIsMyRecipesActive(isActive: boolean): void {
+    this.isMyRecipesActive.next(isActive);
   }
 
   clearRecipeDetails(): void {

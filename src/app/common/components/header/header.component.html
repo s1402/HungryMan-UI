@@ -19,7 +19,7 @@
         <div *ngIf="tokenService.isUserLoggedIn()">
             <span *ngIf="tokenService.isOwnerLoggedIn(); else foodie" class="owner-nav">
                 <nav> <a href="/owner/add-recipe"> Add Recipe </a> </nav>
-                <nav> <a href="/owner/add-recipe"> My Recipes </a> </nav>
+                <nav> <a [routerLink]="['/']" fragment="my-recipes"> My Recipes </a> </nav>
             </span>
             <ng-template #foodie>
                 <nav> <a [routerLink]= "['/']" fragment="favorites"> My Favourites </a> </nav>

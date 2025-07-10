@@ -25,12 +25,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     const stateSub = combineLatest([
       this.sharedService.isSearchActive$,
       this.sharedService.isFavoriteActive$,
-    ]).subscribe(([searchActive, favoriteActive]) => {
+      this.sharedService.isMyRecipesActive$,
+    ]).subscribe(([searchActive, favoriteActive, myRecipesActive]) => {
       this.isSearchActive = searchActive;
 
       if (favoriteActive) {
         const favRecipes = localStorage.getItem('favorites') || '[]';
         this.recipes = JSON.parse(favRecipes);
+      } else if (myRecipesActive) {
+        const myRecipes = localStorage.getItem('myRecipes') || '[]';
+        this.recipes = JSON.parse(myRecipes);
       } else {
         this.recipeService.getAllRecipes().subscribe({
           next: (response: any) => {

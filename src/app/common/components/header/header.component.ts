@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   isSearchActive: boolean = false;
 
   ngOnInit(): void {
-    // if /#search or /#favorites  is routed
+    // if /#search or /#favorites or #my-recipes  is routed
     this.router.fragment.subscribe((fragment: string | null) => {
       if (fragment && fragment === 'search') {
         this.isSearchActive = true;
@@ -28,6 +28,9 @@ export class HeaderComponent implements OnInit {
       }
       if (fragment && fragment === 'favorites') {
         this.sharedService.setIsFavoriteActive(true);
+      }
+      if (fragment && fragment === 'my-recipes') {
+        this.sharedService.setIsMyRecipesActive(true);
       }
     });
   }

@@ -15,46 +15,26 @@ export class RecipeService {
     'Access-Control-Allow-Origin': '*',
   });
 
-  constructor(
-    private readonly http: HttpClient
-  ) {}
+  constructor(private readonly http: HttpClient) {}
 
   addRecipe(recipeData: FormData): Observable<Object> {
-    return this.http.post(this.commonOwnerUrl, recipeData).pipe(
-      map((response: any) => {
-        if (response) {
-          return true;
-        }
-        return false;
-      }),
-      catchError((error) => throwError(() => error))
-    );
+    return this.http
+      .post<Object>(this.commonOwnerUrl, recipeData)
+      .pipe(catchError((error) => throwError(() => error)));
   }
 
   getAllRecipes(): Observable<Object> {
     return this.http
-      .get(this.commonFoodieUrl, { headers: this.httpHeaders })
-      .pipe(
-        map((response: any) => {
-          if (response) {
-            return response;
-          }
-          return [];
-        }),
-        catchError((error) => throwError(() => error))
-      );
+      .get<Object>(this.commonFoodieUrl, { headers: this.httpHeaders })
+      .pipe(catchError((error) => throwError(() => error)));
   }
 
   getRecipeById(id: string): Observable<RecipeDetails | null> {
     return this.http
-      .get(this.commonFoodieUrl + '/' + id, { headers: this.httpHeaders })
+      .get<RecipeDetails | null>(this.commonFoodieUrl + '/' + id, {
+        headers: this.httpHeaders,
+      })
       .pipe(
-        map((response: any) => {
-          if (response) {
-            return response;
-          }
-          return null;
-        }),
         catchError((error) => {
           console.error('Error fetching recipe by ID:', error);
           return throwError(() => error);
@@ -69,14 +49,19 @@ export class RecipeService {
     return this.http
       .get<RecipeDetails[]>(url, { headers: this.httpHeaders })
       .pipe(
-        map((response: any) => {
-          if (response && Array.isArray(response)) {
-            return response;
-          }
-          return [];
-        }),
         catchError((error) => {
           return throwError(() => error);
+        })
+      );
+  }
+
+  getRecipesByOwner(ownerId: string): Observable<RecipeDetails[]> {
+    const url = `${this.commonOwnerUrl}?ownerId=${ownerId}`;
+    return this.http
+      .get<RecipeDetails[]>(url, { headers: this.httpHeaders })
+      .pipe(
+        catchError((err) => {
+          return throwError(() => err);
         })
       );
   }

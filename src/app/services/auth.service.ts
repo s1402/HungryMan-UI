@@ -12,6 +12,7 @@ import {
   throwError,
 } from 'rxjs';
 import { TokenService } from './token.service';
+import { RecipeService } from './recipe.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,7 @@ export class AuthService {
   constructor(
     private readonly httpClient: HttpClient,
     private readonly favoriteService: FavoritesService,
+    private readonly recipeService: RecipeService,
     private readonly tokenService: TokenService
   ) {}
 
@@ -67,8 +69,20 @@ export class AuthService {
                   return of(true);
                 })
               );
+            } else {
+              // if its a owner , add recipes by owner in local storage
+              const ownerId = this.tokenService.getOwnerId();
+              return this.recipeService.getRecipesByOwner(ownerId).pipe(
+                switchMap((recipes: any) => {
+                  localStorage.setItem('myRecipes', JSON.stringify(recipes));
+                  return of(true);
+                }),
+                catchError(() => {
+                  localStorage.setItem('myRecipes', JSON.stringify([]));
+                  return of(true);
+                })
+              );
             }
-            return of(true); // If owner
           }
           return of(false);
         }),
