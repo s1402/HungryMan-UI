@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { RecipeDetails } from '../common/interfaces/User';
 import { AuthService } from './auth.service';
+import { MESSAGE } from '../common/enums/CustomError';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,10 @@ export class RecipeService {
     'Access-Control-Allow-Origin': '*',
   });
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly tokenService: TokenService
+  ) {}
 
   addRecipe(recipeData: FormData): Observable<Object> {
     return this.http
@@ -64,5 +69,12 @@ export class RecipeService {
           return throwError(() => err);
         })
       );
+  }
+
+  updateRecipeViewCount(recipeId: string): Observable<MESSAGE> {
+    const url = `${this.commonFoodieUrl}/views/${recipeId}`;
+    return this.http
+      .post<MESSAGE>(url, null, { headers: this.tokenService.getAuthHeaders() })
+      .pipe(catchError((error) => throwError(() => error)));
   }
 }

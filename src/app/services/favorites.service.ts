@@ -19,7 +19,7 @@ export class FavoritesService {
     try {
       const response = await firstValueFrom(
         this.http.get<RecipeDetails[]>(this.commonUrl, {
-          headers: this.getAuthHeaders(),
+          headers: this.tokenService.getAuthHeaders(),
         })
       );
       return response || [];
@@ -33,7 +33,7 @@ export class FavoritesService {
     const url = `${this.commonUrl}/${recipeId}`;
 
     return this.http
-      .post<MessageResponse[]>(url, {}, { headers: this.getAuthHeaders() })
+      .post<MessageResponse[]>(url, {}, { headers: this.tokenService.getAuthHeaders() })
       .pipe(
         map((response: any) => {
           if (response) {
@@ -46,14 +46,5 @@ export class FavoritesService {
           return throwError(() => error);
         })
       );
-  }
-
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.tokenService.getToken();
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-    });
   }
 }

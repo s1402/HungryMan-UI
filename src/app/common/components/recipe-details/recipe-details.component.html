@@ -32,7 +32,7 @@
     </div>
 
     <div class="stats">
-      <span><i class="material-icons">visibility</i> {{ recipeDetails?.views }}</span>
+      <span [ngStyle]="{ 'color': isRecipeViewed ? '#1aaa55' : '#888'}"><i class="material-icons">visibility</i> {{ recipeDetails?.views?.length || 0 }}</span>
       <span [ngStyle]="{ 'color': isFavorite ? '#1aaa55' : '#888'}"><i class="material-icons">favorite</i> {{ recipeDetails?.favoritesCount }}</span>
     </div>
 

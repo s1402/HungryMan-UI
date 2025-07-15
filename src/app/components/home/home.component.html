@@ -14,7 +14,7 @@
       <div class="meta-info">
         <span class="veg-indicator" [ngClass]="{ 'veg': recipe.vegetarian, 'non-veg': !recipe.vegetarian }"></span>
         <div class="analytics-container">
-          <span class="views"><i class="material-icons">visibility</i> {{ recipe.views }}</span>
+          <span class="views"><i class="material-icons">visibility</i> {{ recipe.views?.length || 0 }}</span>
           <span class="favorites"><i class="material-icons">favorite</i> {{ recipe.favoritesCount }}</span>
         </div>
       </div>

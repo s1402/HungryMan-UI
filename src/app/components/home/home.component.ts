@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               const favRecipeIds = localStorage.getItem('favorites') || '[]';
               const favRecipeIdArr: string[] = JSON.parse(favRecipeIds);
               const filteredRecipes: RecipeDetails[] = [];
-              // Filter the fav recipes
+              // Filter the fav recipes by logged in foodie
               this.recipes.forEach((recipeDetails: RecipeDetails) => {
                 const isRecipeFav = favRecipeIdArr.includes(recipeDetails._id);
                 if (isRecipeFav) {
@@ -77,14 +77,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   selectRecipe(recipe: RecipeDetails): void {
-    this.router.navigate(['/recipe', recipe.title, recipe._id]);
-    this.sharedService.setRecipeDetails(recipe);
+    this.router.navigate(['/recipe', recipe.title, recipe._id], {
+      state: { recipe },
+    });
   }
 
   onClickChevron(): void {
     // Toggle search active state
     this.isSearchActive = !this.isSearchActive;
-    this.sharedService.setSearchActive(this.isSearchActive);
     this.router.navigate(['/']);
   }
 
@@ -92,7 +92,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     // Clear recipe details when the component is destroyed
     this.sharedService.clearRecipeDetails();
     // Reset search active state
-    this.sharedService.setSearchActive(false);
     this.sharedService.setIsFavoriteActive(false);
     this.subscriptions.unsubscribe();
     this.isSearchActive = false;

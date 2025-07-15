@@ -148,7 +148,7 @@ export class AddRecipeComponent implements OnInit {
     formData.append('ingredients', JSON.stringify(this.ingredients.value));
     formData.append('steps', JSON.stringify(this.steps.value));
     formData.append('tags', JSON.stringify(this.tags.value));
-    formData.append('ownerId', this.tokenService.getOwnerId());
+    formData.append('ownerId', this.tokenService.getOwnerFoodieId());
     formData.append('vegetarian', this.vegetarian.value.toString());
 
     if (this.imageFile) {

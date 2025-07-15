@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { FavoritesService } from 'src/app/services/favorites.service';
+import { MESSAGE } from '../../enums/CustomError';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-recipe-details',
@@ -15,53 +17,88 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
   recipeDetails: RecipeDetails | null = null;
   ownerDetails: User | null = null;
   isFavorite = false;
+  isRecipeViewed = false;
   showSnackBar = false;
   constructor(
     private readonly sharedService: SharedService,
     private readonly router: Router,
     private readonly recipeService: RecipeService,
     private readonly favoritesService: FavoritesService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
-    this.sharedService.recipeDetails$.subscribe(
-      (recipeDetails: RecipeDetails | null) => {
-        this.recipeDetails = recipeDetails;
-        this.isFavorite = this.isCurrentRecipeFavorite(
-          this.recipeDetails?._id || ''
-        );
-        // If recipeDetails is already available, call owner API
-        if (this.recipeDetails?.ownerId) {
-          this.fetchOwnerDetails(this.recipeDetails.ownerId);
-        }
-      }
-    );
-    if (!this.recipeDetails) {
-      // On refresh or null state, extract ID and fetch recipe
-      const recipeId = this.router.url.split('/')[3];
-      this.recipeService.getRecipeById(recipeId).subscribe({
-        next: async (response: RecipeDetails | null) => {
-          if (response) {
-            this.recipeDetails = response;
-            this.sharedService.setRecipeDetails(this.recipeDetails);
-            if (this.recipeDetails._id) {
-              this.isFavorite = this.isCurrentRecipeFavorite(
-                this.recipeDetails?._id || ''
-              );
-            }
+    const routeStateRecipe = history.state?.recipe;
+    if (routeStateRecipe) {
+      this.recipeDetails = routeStateRecipe;
+      this.isFavorite = this.isCurrentRecipeFavorite(routeStateRecipe._id);
+      this.initializeRecipeData();
+    } else {
+      this.callFallBackApi();
+    }
+  }
 
-            if (this.recipeDetails.ownerId) {
-              this.fetchOwnerDetails(this.recipeDetails.ownerId);
-            }
-          } else {
-            console.error('Recipe not found');
+  callFallBackApi(): void {
+    const recipeId = this.router.url.split('/')[3];
+    this.recipeService.getRecipeById(recipeId).subscribe({
+      next: (response: RecipeDetails | null) => {
+        if (response) {
+          this.recipeDetails = response;
+          this.sharedService.setRecipeDetails(this.recipeDetails);
+          if (this.recipeDetails._id) {
+            this.isFavorite = this.isCurrentRecipeFavorite(
+              this.recipeDetails?._id || ''
+            );
           }
+          this.initializeRecipeData();
+        } else {
+          console.error('Recipe not found');
+        }
+      },
+      error: (error: any) => {
+        console.error('Error fetching recipe details:', error);
+      },
+    });
+  }
+
+  updateRecipeViewCount(): void {
+    // if the recipe is already viewed , do nothing
+    // if the recipe is not viewed , add foodie id in recipe views []
+    this.recipeService
+      .updateRecipeViewCount(this.recipeDetails?._id || '')
+      .subscribe({
+        next: (response: MESSAGE) => {
+          console.log(response);
         },
-        error: (error: any) => {
-          console.error('Error fetching recipe details:', error);
+        error: (error) => {
+          console.error(error);
         },
       });
+  }
+
+  isRecipeViewedByFoodie(views: string[]): boolean {
+    return views.some(
+      (foodieId: string) => foodieId === this.tokenService.getOwnerFoodieId()
+    );
+  }
+
+  /**
+   * Initializes recipe-related data when the recipe details are available.
+   * - Checks if the current recipe has already been viewed by the logged-in foodie.
+   * - Fetches the owner's information based on the recipe's `ownerId`.
+   * - If the user is a foodie and the recipe hasn't been viewed yet, increments the view count.
+   */
+  initializeRecipeData(): void {
+    if (this.recipeDetails) {
+      this.isRecipeViewed = this.isRecipeViewedByFoodie(
+        this.recipeDetails.views || []
+      );
+      this.fetchOwnerDetails(this.recipeDetails.ownerId || '');
+      // if foodie is logged in and recipeDetails is not already viewed update recipe view count
+      if (this.tokenService.isFoodieLoggedIn() && !this.isRecipeViewed) {
+        this.updateRecipeViewCount();
+      }
     }
   }
 
@@ -145,7 +182,6 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
     if (!storedFavRecipeIds) {
       return false;
     }
-
     try {
       const storedFavRecipeIdsArr: string[] = JSON.parse(storedFavRecipeIds);
       return storedFavRecipeIdsArr.some((id: string) => id === recipeId);

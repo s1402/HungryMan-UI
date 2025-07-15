@@ -28,7 +28,7 @@ export interface RecipeDetails {
   updatedAt?: Date; 
   ratings?: string[];
   vegetarian: boolean;
-  views?: number;
+  views?: string[];
   _id: string;
   __v: number 
 }

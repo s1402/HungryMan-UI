@@ -57,7 +57,7 @@ export class AuthService {
           if (response && response['token']) {
             // add the token in local storage
             localStorage.setItem('token', response['token']);
-            // if its a foodie , add favorite recipe's IdS in local storage
+            // if its a foodie , add favorite recipe's Ids in local storage
             if (!isOwner) {
               return from(this.favoriteService.getFavorites()).pipe(
                 switchMap((favorites: RecipeDetails[]) => {
@@ -75,7 +75,7 @@ export class AuthService {
               );
             } else {
               // if its a owner , add recipes by owner in local storage
-              const ownerId = this.tokenService.getOwnerId();
+              const ownerId = this.tokenService.getOwnerFoodieId();
               return this.recipeService.getRecipesByOwner(ownerId).pipe(
                 switchMap((recipes: RecipeDetails[]) => {
                   let myRecipeIds: string[] = [];

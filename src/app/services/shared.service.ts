@@ -25,7 +25,8 @@ export class SharedService {
     this.recipeDetails.asObservable();
   isSearchActive$: Observable<boolean> = this.isSearchActive.asObservable();
   isFavoriteActive$: Observable<boolean> = this.isFavoriteActive.asObservable();
-  isMyRecipesActive$: Observable<boolean> = this.isMyRecipesActive.asObservable();
+  isMyRecipesActive$: Observable<boolean> =
+    this.isMyRecipesActive.asObservable();
 
   showSnackBar(snackBarDetails: SnackBarDetails): void {
     this.snackBarSubject.next(snackBarDetails);
@@ -33,10 +34,6 @@ export class SharedService {
 
   setRecipeDetails(recipeDetails: RecipeDetails): void {
     this.recipeDetails.next(recipeDetails);
-  }
-
-  getRecipeDetails(): RecipeDetails | null {
-    return this.recipeDetails.getValue();
   }
 
   setSearchActive(isActive: boolean): void {
