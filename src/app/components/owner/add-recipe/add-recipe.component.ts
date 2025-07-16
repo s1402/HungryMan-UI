@@ -2,10 +2,8 @@ import { RecipeService } from './../../../services/recipe.service';
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
   HostListener,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import {
   FormArray,

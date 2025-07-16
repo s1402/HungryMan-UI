@@ -5,8 +5,7 @@
 
     <!-- Auto Complete Search Bar -->
     <div class="search-input">
-        <input type="text" placeholder="Search by recipe name or ingredients" [(ngModel)]="searchInput"
-            (ngModelChange)="onSearch()">
+        <input type="text" #search placeholder="Search by recipe name or ingredients" [(ngModel)]="searchInput">
     </div>
 
     <!-- Search Results -->

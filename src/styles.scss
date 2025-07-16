@@ -4,11 +4,13 @@ body {
   font-family: 'Segoe UI', sans-serif;
 }
 
-app-login , app-register , app-add-recipe {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+app-login,
+app-register,
+app-add-recipe {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 input:focus,
@@ -50,11 +52,13 @@ input.ng-invalid.ng-touched {
 }
 
 hr {
-    color: #333;
+  color: #333;
 }
 
 .search-active {
   filter: blur(80px);
   pointer-events: none;
   transition: filter 0.3s ease-in-out;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3) !important;
 }
