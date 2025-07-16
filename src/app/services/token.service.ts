@@ -45,6 +45,14 @@ export class TokenService {
     return '';
   }
 
+  getLoggedInUserName(): string {
+    const token = this.getToken()
+    if(!token){
+      return '';
+    }
+    return JSON.parse(atob(token.split('.')[1])).name as string;
+  }
+
   getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
     return new HttpHeaders({

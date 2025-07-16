@@ -31,6 +31,21 @@
     }
 }
 
+.user-greeting {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  .username {
+    font-weight: 600;
+    color: #1a73e8;
+  }
+}
+
 .owner-nav {
     display: flex;
 }

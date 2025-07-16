@@ -3,17 +3,19 @@
         <img src="https://i.ibb.co/dJWmhqmx/logo-png.png" alt="logo-png" border="0">
     </div>
 
-     <!-- Todo -->
-    <!-- <div *ngIf="tokenService.isUserLoggedIn()">
-        Hello {{ tokenService.getUserName() }}
-    </div> -->
-    
     <div class="navigation-container">
+        <nav class="navbar">
+        
+        <!-- Name of logged in user -->    
+            <div class="user-greeting" *ngIf="tokenService.isUserLoggedIn()">
+                👋 Hello, <span class="username">{{ tokenService.getLoggedInUserName() | capitalize }}</span>
+            </div>
+        </nav>
         <!-- Home -->
         <nav> <a href="/">Home</a> </nav>
 
         <!-- About Author -->
-        <nav> <a href="/">About</a> </nav>
+        <nav> <a href="/about">About</a> </nav>
 
         <!-- My Recipes For Owner and Favourites For Foodie -->
         <div *ngIf="tokenService.isUserLoggedIn()">
@@ -22,7 +24,7 @@
                 <nav> <a [routerLink]="['/']" fragment="my-recipes"> My Recipes </a> </nav>
             </span>
             <ng-template #foodie>
-                <nav> <a [routerLink]= "['/']" fragment="favorites"> My Favourites </a> </nav>
+                <nav> <a [routerLink]="['/']" fragment="favorites"> My Favourites </a> </nav>
             </ng-template>
         </div>
         <!-- Login and Logout -->
@@ -35,7 +37,7 @@
         </ng-template>
 
         <!-- Search Recipe -->
-        <nav> <a [routerLink] = "['/']" fragment="search"><i class="ri-search-line"></i></a> </nav>
+        <nav> <a [routerLink]="['/']" fragment="search"><i class="ri-search-line"></i></a> </nav>
     </div>
 </div>
 <hr>

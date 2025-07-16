@@ -23,6 +23,9 @@ import { HeaderComponent } from './common/components/header/header.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { RecipeDetailsComponent } from './common/components/recipe-details/recipe-details.component';
 import { SearchRecipeComponent } from './components/search-recipe/search-recipe.component';
+import { AboutComponent } from './components/about/about.component';
+import { CapitalizePipe } from './pipes/capitalize.pipe';
+
 
 @NgModule({
   declarations: [
@@ -36,6 +39,8 @@ import { SearchRecipeComponent } from './components/search-recipe/search-recipe.
     HeaderComponent,
     RecipeDetailsComponent,
     SearchRecipeComponent,
+    AboutComponent,
+    CapitalizePipe,
   ],
   imports: [
     BrowserModule,

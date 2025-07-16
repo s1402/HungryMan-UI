@@ -7,6 +7,7 @@ import { AddRecipeComponent } from './components/owner/add-recipe/add-recipe.com
 import { AuthGuard } from './guards/auth.guard';
 import { OwnerGuard } from './guards/owner.guard';
 import { RecipeDetailsComponent } from './common/components/recipe-details/recipe-details.component';
+import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
     component: RecipeDetailsComponent,
     path: 'recipe/:title/:id',
     canActivate: [AuthGuard],
+  },
+  {
+    component: AboutComponent,
+    path: 'about'
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
