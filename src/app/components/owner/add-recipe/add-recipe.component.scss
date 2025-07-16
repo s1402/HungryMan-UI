@@ -88,7 +88,9 @@ p {
     color: #444;
 }
 
-p.ingredients, p.tags, p.images {
+p.ingredients,
+p.tags,
+p.images {
     margin-top: 0.5rem
 }
 
@@ -154,7 +156,7 @@ p.ingredients, p.tags, p.images {
 }
 
 .add-step-btn:disabled {
-    cursor:not-allowed;
+    cursor: not-allowed;
 }
 
 .invalid-chip {

@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   form: FormGroup = this.fb.group({});
   isOwner = false;
   showSnackBar = false;
+  isDataLoading = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -41,9 +42,11 @@ export class LoginComponent implements OnInit {
       return;
     }
     const payload: User = this.form.value;
+    this.isDataLoading = true;
 
     this.service.login(payload, this.isOwner).subscribe({
       next: (response) => {
+        this.isDataLoading = false;
         if (response) {
           this.showSnackBar = true;
           this.sharedService.showSnackBar({
@@ -57,6 +60,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error: (response) => {
+        this.isDataLoading = false;
         this.showSnackBar = true;
         if (response && response.error && response.error['error']) {
           this.form.setErrors(response.error['error']);

@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   recipes: RecipeDetails[] = [];
   isSearchActive: boolean = false;
   private subscriptions = new Subscription();
+  isDataLoading = true;
 
   ngOnInit(): void {
     const stateSub = combineLatest([
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.recipeService.getAllRecipes().subscribe({
           next: (response: any) => {
             this.recipes = response;
+            this.isDataLoading = false;
             console.log('Recipes fetched successfully:', this.recipes);
             if (favoriteActive) {
               const favRecipeIds = localStorage.getItem('favorites') || '[]';
@@ -68,6 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           },
           error: (error: any) => {
             console.error('Error fetching recipes:', error);
+            this.isDataLoading = false;
           },
         });
       }
@@ -95,5 +98,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.sharedService.setIsFavoriteActive(false);
     this.subscriptions.unsubscribe();
     this.isSearchActive = false;
+    this.isDataLoading = false;
   }
 }

@@ -32,6 +32,7 @@ export class AddRecipeComponent implements OnInit {
   maxTagValue = 5;
   imageFile: File | null = null;
   imagePreview: string | null = null;
+  isDataLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -136,6 +137,7 @@ export class AddRecipeComponent implements OnInit {
 
   submit(): void {
     this.form.markAllAsTouched();
+    this.isDataLoading = true;
     if (this.form.invalid) {
       return;
     }
@@ -156,6 +158,7 @@ export class AddRecipeComponent implements OnInit {
     // call your API service to send this formData
     this.recipeService.addRecipe(formData).subscribe({
       next: (response) => {
+        this.isDataLoading = false;
         console.log('Recipe added successfully', response);
         this.showSnackBar = true; // Show success message
         this.sharedService.showSnackBar({
@@ -177,6 +180,7 @@ export class AddRecipeComponent implements OnInit {
       },
       error: (response) => {
         this.showSnackBar = true;
+        this.isDataLoading = false;
         if (response && response.error && response.error['error']) {
           this.form.setErrors(response.error['error']);
           this.sharedService.showSnackBar({

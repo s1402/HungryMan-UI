@@ -18,6 +18,7 @@ export class RegisterComponent implements OnInit {
   showSnackBar = false;
   imageFile: File | null = null;
   imagePreview: string | null = null;
+  isDataLoading = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -86,7 +87,7 @@ export class RegisterComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-
+    this.isDataLoading = true;
     const payload = new FormData();
     payload.append('name', this.name?.value);
     payload.append('email', this.email?.value);
@@ -110,6 +111,7 @@ export class RegisterComponent implements OnInit {
 
     this.service.register(payload, this.isOwner).subscribe({
       next: (response) => {
+        this.isDataLoading = false;
         if (response) {
           this.showSnackBar = true;
           this.sharedService.showSnackBar({
@@ -124,6 +126,7 @@ export class RegisterComponent implements OnInit {
       },
       error: (response) => {
         this.showSnackBar = true;
+        this.isDataLoading = false;
         if (response && response.error && response.error['error']) {
           this.form.setErrors(response.error['error']);
           this.sharedService.showSnackBar({

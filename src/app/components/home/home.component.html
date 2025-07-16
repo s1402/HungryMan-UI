@@ -1,24 +1,38 @@
 <div class="home-container" [ngClass]="{ 'search-active': isSearchActive }">
   <div class="recipes-wrapper">
-    <div class="recipe-card" *ngFor="let recipe of recipes" (click)="selectRecipe(recipe)">
-      <div class="recipe-image" [style.backgroundImage]="'url(' + recipe.image.url + ')'">
-        <div class="tag-overlay">
-          <span class="tag" *ngFor="let tag of recipe.tags">{{ tag }}</span>
+
+    <!-- Shimmer while loading -->
+    <ng-container *ngIf="isDataLoading; else loadedRecipes">
+      <div class="recipe-card shimmer" *ngFor="let placeholder of [1,2,3,4,5,6]">
+        <div class="recipe-image shimmer-box"></div>
+        <div class="recipe-content shimmer-text"></div>
+        <div class="meta-info shimmer-text"></div>
+      </div>
+    </ng-container>
+
+    <!-- Real data when loaded -->
+    <ng-template #loadedRecipes>
+      <div class="recipe-card" *ngFor="let recipe of recipes" (click)="selectRecipe(recipe)">
+        <div class="recipe-image" [style.backgroundImage]="'url(' + recipe.image.url + ')'">
+          <div class="tag-overlay">
+            <span class="tag" *ngFor="let tag of recipe.tags">{{ tag }}</span>
+          </div>
+        </div>
+
+        <div class="recipe-content">
+          <h2 class="recipe-title">{{ recipe.title }}</h2>
+        </div>
+
+        <div class="meta-info">
+          <span class="veg-indicator" [ngClass]="{ 'veg': recipe.vegetarian, 'non-veg': !recipe.vegetarian }"></span>
+          <div class="analytics-container">
+            <span class="views"><i class="material-icons">visibility</i> {{ recipe.views?.length || 0 }}</span>
+            <span class="favorites"><i class="material-icons">favorite</i> {{ recipe.favoritesCount }}</span>
+          </div>
         </div>
       </div>
+    </ng-template>
 
-      <div class="recipe-content">
-        <h2 class="recipe-title">{{ recipe.title }}</h2>
-      </div>
-
-      <div class="meta-info">
-        <span class="veg-indicator" [ngClass]="{ 'veg': recipe.vegetarian, 'non-veg': !recipe.vegetarian }"></span>
-        <div class="analytics-container">
-          <span class="views"><i class="material-icons">visibility</i> {{ recipe.views?.length || 0 }}</span>
-          <span class="favorites"><i class="material-icons">favorite</i> {{ recipe.favoritesCount }}</span>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 

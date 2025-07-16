@@ -25,6 +25,7 @@ import { RecipeDetailsComponent } from './common/components/recipe-details/recip
 import { SearchRecipeComponent } from './components/search-recipe/search-recipe.component';
 import { AboutComponent } from './components/about/about.component';
 import { CapitalizePipe } from './pipes/capitalize.pipe';
+import { SpinnerComponent } from './common/components/spinner/spinner.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { CapitalizePipe } from './pipes/capitalize.pipe';
     SearchRecipeComponent,
     AboutComponent,
     CapitalizePipe,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,

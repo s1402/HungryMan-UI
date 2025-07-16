@@ -5,107 +5,119 @@
     </div>
 
     <hr>
+    <!-- Show spinner on submit for loading -->
+    <app-spinner *ngIf="isDataLoading; else recipeAdded" class="spinner-overlay">
+    </app-spinner >
 
-    <div class="form-container">
-        <!-- Add recipe form -->
-        <form [formGroup]="form" (ngSubmit)="submit()">
+    <ng-template #recipeAdded>
+        <div class="form-container">
+            <!-- Add recipe form -->
+            <form [formGroup]="form" (ngSubmit)="submit()">
 
-            <!-- show error/success snack-bar -->
-            <app-snack-bar *ngIf="showSnackBar"></app-snack-bar>
+                <!-- show error/success snack-bar -->
+                <app-snack-bar *ngIf="showSnackBar"></app-snack-bar>
 
-            <!-- title -->
-            <div class="form-group">
-                <label for="title"> Recipe Name </label>
-                <input type="text" formControlName="title" name="title" id="title" placeholder="Enter name of recipe">
-                <!--Form error from UI -->
-                <span *ngIf="title?.touched && title?.errors" class="invalid-input">
-                    <span *ngIf="title?.errors?.['required']">{{"error.recipeNameRequired" | translate}}</span>
-                    <span *ngIf="title?.errors?.['minlength']">{{"error.minimumLength" | translate}}</span>
-                    <span *ngIf="title?.errors?.['maxlength']">{{"error.maximumLengthTwoHundred" | translate}}</span>
-                </span>
-            </div>
+                <!-- title -->
+                <div class="form-group">
+                    <label for="title"> Recipe Name </label>
+                    <input type="text" formControlName="title" name="title" id="title"
+                        placeholder="Enter name of recipe">
+                    <!--Form error from UI -->
+                    <span *ngIf="title?.touched && title?.errors" class="invalid-input">
+                        <span *ngIf="title?.errors?.['required']">{{"error.recipeNameRequired" | translate}}</span>
+                        <span *ngIf="title?.errors?.['minlength']">{{"error.minimumLength" | translate}}</span>
+                        <span *ngIf="title?.errors?.['maxlength']">{{"error.maximumLengthTwoHundred" |
+                            translate}}</span>
+                    </span>
+                </div>
 
-            <!-- description -->
-            <div class="form-group">
-                <label for="description"> Recipe description </label>
-                <input type="text" formControlName="description" name="description" id="description"
-                    placeholder="Enter description of recipe">
-                <!--Form error from UI -->
-                <span *ngIf="description?.touched && description?.errors" class="invalid-input">
-                    <span *ngIf="description?.errors?.['required']">{{"error.descriptionRequired" | translate}}</span>
-                    <span *ngIf="description?.errors?.['maxlength']">{{"error.maximumLengthTwoHundred" | translate}}</span>
-                </span>
-            </div>
+                <!-- description -->
+                <div class="form-group">
+                    <label for="description"> Recipe description </label>
+                    <input type="text" formControlName="description" name="description" id="description"
+                        placeholder="Enter description of recipe">
+                    <!--Form error from UI -->
+                    <span *ngIf="description?.touched && description?.errors" class="invalid-input">
+                        <span *ngIf="description?.errors?.['required']">{{"error.descriptionRequired" |
+                            translate}}</span>
+                        <span *ngIf="description?.errors?.['maxlength']">{{"error.maximumLengthTwoHundred" |
+                            translate}}</span>
+                    </span>
+                </div>
 
-            <!-- ingredients -->
-            <p class="ingredients">Ingredients</p>
-            <mat-form-field class="chip-form-group"
-                [ngClass]="{'invalid-chip' : ingredients.touched && ingredients.errors} " appearance="fill">
-                <mat-chip-grid #ingredientChipList aria-label="Ingredients list">
-                    <mat-chip class="mat-chip" *ngFor="let ing of ingredients.controls; let i = index"
-                        [removable]="true" (removed)="removeIngredient(i)">
-                        {{ ing.value }}
-                        <mat-icon matChipRemove>cancel</mat-icon>
-                    </mat-chip>
-                </mat-chip-grid>
+                <!-- ingredients -->
+                <p class="ingredients">Ingredients</p>
+                <mat-form-field class="chip-form-group"
+                    [ngClass]="{'invalid-chip' : ingredients.touched && ingredients.errors} " appearance="fill">
+                    <mat-chip-grid #ingredientChipList aria-label="Ingredients list">
+                        <mat-chip class="mat-chip" *ngFor="let ing of ingredients.controls; let i = index"
+                            [removable]="true" (removed)="removeIngredient(i)">
+                            {{ ing.value }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-grid>
 
-                <input placeholder="Add ingredient" [matChipInputFor]="ingredientChipList"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
-                    (matChipInputTokenEnd)="addIngredient($event)" [disabled]="ingredients.length >= maxValue" />
-            </mat-form-field>
+                    <input placeholder="Add ingredient" [matChipInputFor]="ingredientChipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                        (matChipInputTokenEnd)="addIngredient($event)" [disabled]="ingredients.length >= maxValue" />
+                </mat-form-field>
 
-            <!-- steps -->
-            <p>Steps</p>
-            <div class="form-group step-group" [ngClass]="{'invalid-chip' : steps.touched && steps.errors} ">
-                <div *ngFor="let step of getStepsFormControl(); let i = index" class="step-row">
-                    <input (keydown.enter)="addStep()" [formControl]="step" type="text" placeholder="Step {{ i + 1 }}"
-                        [attr.aria-label]="'Step ' + (i + 1)" />
-                    <button type="button" class="remove-btn" (click)="removeStep(i)" *ngIf="steps.length > 1">
-                        <mat-icon>remove_circle</mat-icon>
+                <!-- steps -->
+                <p>Steps</p>
+                <div class="form-group step-group" [ngClass]="{'invalid-chip' : steps.touched && steps.errors} ">
+                    <div *ngFor="let step of getStepsFormControl(); let i = index" class="step-row">
+                        <input (keydown.enter)="addStep()" [formControl]="step" type="text"
+                            placeholder="Step {{ i + 1 }}" [attr.aria-label]="'Step ' + (i + 1)" />
+                        <button type="button" class="remove-btn" (click)="removeStep(i)" *ngIf="steps.length > 1">
+                            <mat-icon>remove_circle</mat-icon>
+                        </button>
+                    </div>
+                    <button type="button" class="add-step-btn" (click)="addStep()"
+                        [disabled]="steps.length >= maxValue">
+                        <mat-icon>add_circle</mat-icon> Add Step
                     </button>
                 </div>
-                <button type="button" class="add-step-btn" (click)="addStep()" [disabled]="steps.length >= maxValue">
-                    <mat-icon>add_circle</mat-icon> Add Step
-                </button>
-            </div>
 
-            <!-- tags -->
-            <p class="tags">Tags</p>
-            <mat-form-field class="chip-form-group" appearance="fill" [ngClass]="{'invalid-chip' : tags.touched && tags.errors} ">
-                <mat-chip-grid #tagChipList aria-label="tags list">
-                    <mat-chip class="mat-chip" *ngFor="let tag of tags.controls; let i = index" [removable]="true"
-                        (removed)="removeTag(i)">
-                        {{ tag.value }}
-                        <mat-icon matChipRemove>cancel</mat-icon>
-                    </mat-chip>
-                </mat-chip-grid>
+                <!-- tags -->
+                <p class="tags">Tags</p>
+                <mat-form-field class="chip-form-group" appearance="fill"
+                    [ngClass]="{'invalid-chip' : tags.touched && tags.errors} ">
+                    <mat-chip-grid #tagChipList aria-label="tags list">
+                        <mat-chip class="mat-chip" *ngFor="let tag of tags.controls; let i = index" [removable]="true"
+                            (removed)="removeTag(i)">
+                            {{ tag.value }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-grid>
 
-                <input placeholder="Add tag" [matChipInputFor]="tagChipList"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
-                    (matChipInputTokenEnd)="addTag($event)" [disabled]="tags.length >= maxTagValue" />
-            </mat-form-field>
+                    <input placeholder="Add tag" [matChipInputFor]="tagChipList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+                        (matChipInputTokenEnd)="addTag($event)" [disabled]="tags.length >= maxTagValue" />
+                </mat-form-field>
 
-            <!-- vegetarian option -->
-            <mat-radio-group [formControl] = "vegetarian" class="radio-group" defaultValue="false">
-                <mat-radio-button [value]=true>Veg</mat-radio-button>
-                <mat-radio-button [value]=false>Non Veg</mat-radio-button>
-            </mat-radio-group>
+                <!-- vegetarian option -->
+                <mat-radio-group [formControl]="vegetarian" class="radio-group" defaultValue="false">
+                    <mat-radio-button [value]=true>Veg</mat-radio-button>
+                    <mat-radio-button [value]=false>Non Veg</mat-radio-button>
+                </mat-radio-group>
 
-            <!-- image upload -->
-            <p class="images">Recipe Image</p>
-            <div class="form-group image-group">
-                <input type="file" accept="image/*" (change)="onImageSelected($event)" />
-                <div class="preview" *ngIf="imagePreview">
-                    <p>Preview:</p>
-                    <img [src]="imagePreview" alt="Image preview" />
+                <!-- image upload -->
+                <p class="images">Recipe Image</p>
+                <div class="form-group image-group">
+                    <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+                    <div class="preview" *ngIf="imagePreview">
+                        <p>Preview:</p>
+                        <img [src]="imagePreview" alt="Image preview" />
+                    </div>
                 </div>
-            </div>
 
-            <!---------------Submit btn -------------->
-            <div class="submit-btn-container">
-                <button type="submit" class="submit-btn">Add Recipe</button>
-            </div>
+                <!---------------Submit btn -------------->
+                <div class="submit-btn-container">
+                    <button type="submit" class="submit-btn">Add Recipe</button>
+                </div>
 
-        </form>
-    </div>
+            </form>
+        </div>
+    </ng-template>
+
 </div>

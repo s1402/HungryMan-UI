@@ -13,40 +13,46 @@
     <hr>
     <div class="form-container">
 
-        <!-- login Owner/Foodie form -->
-        <form [formGroup]="form" (ngSubmit)="submit()">
+        <!-- Show spinner on submit for loading -->
+        <app-spinner *ngIf="isDataLoading; else userAdded" class="spinner-overlay">
+        </app-spinner>
 
-            <!-- show error/success snack-bar -->
-            <app-snack-bar *ngIf="showSnackBar"></app-snack-bar>
+        <ng-template #userAdded>
+            <!-- login Owner/Foodie form -->
+            <form [formGroup]="form" (ngSubmit)="submit()">
 
-            <!-- Owner/Foodie email -->
-            <div class="form-group">
-                <label for="email"> Email </label>
-                <input type="text" formControlName="email" name="email" id="email" placeholder="Enter Email">
-                <!--Form error from UI -->
-                <span *ngIf="email?.touched && email?.errors" class="invalid-input">
-                    <span *ngIf="email?.errors?.['required']">{{"error.emailRequired" | translate}}</span>
-                    <span *ngIf="email?.errors?.['email']">{{"error.invalidEmail" | translate}}</span>
-                </span>
-            </div>
+                <!-- show error/success snack-bar -->
+                <app-snack-bar *ngIf="showSnackBar"></app-snack-bar>
 
-            <!-- Owner/Foodie password -->
-            <div class="form-group">
-                <label for="password"> Password </label>
-                <input type="password" formControlName="password" name="password" id="password"
-                    placeholder="Enter a strong password">
-                <!--Form error from UI -->
-                <span *ngIf="password?.touched && password?.errors" class="invalid-input">
-                    <span *ngIf="password?.errors?.['required']">{{"error.passwordRequired" | translate}}</span>
-                    <span *ngIf="password?.errors?.['password']">{{"error.invalidPassword" | translate}}</span>
-                </span>
-            </div>
+                <!-- Owner/Foodie email -->
+                <div class="form-group">
+                    <label for="email"> Email </label>
+                    <input type="text" formControlName="email" name="email" id="email" placeholder="Enter Email">
+                    <!--Form error from UI -->
+                    <span *ngIf="email?.touched && email?.errors" class="invalid-input">
+                        <span *ngIf="email?.errors?.['required']">{{"error.emailRequired" | translate}}</span>
+                        <span *ngIf="email?.errors?.['email']">{{"error.invalidEmail" | translate}}</span>
+                    </span>
+                </div>
 
-            <!---------------Submit btn -------------->
-            <div class="submit-btn-container">
-                <button type="submit" class="submit-btn">Login</button>
-            </div>
+                <!-- Owner/Foodie password -->
+                <div class="form-group">
+                    <label for="password"> Password </label>
+                    <input type="password" formControlName="password" name="password" id="password"
+                        placeholder="Enter a strong password">
+                    <!--Form error from UI -->
+                    <span *ngIf="password?.touched && password?.errors" class="invalid-input">
+                        <span *ngIf="password?.errors?.['required']">{{"error.passwordRequired" | translate}}</span>
+                        <span *ngIf="password?.errors?.['password']">{{"error.invalidPassword" | translate}}</span>
+                    </span>
+                </div>
 
-        </form>
+                <!---------------Submit btn -------------->
+                <div class="submit-btn-container">
+                    <button type="submit" class="submit-btn">Login</button>
+                </div>
+
+            </form>
+        </ng-template>
     </div>
 </div>

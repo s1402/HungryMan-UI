@@ -13,157 +13,166 @@
     <hr>
     <div class="form-container">
 
-        <!-- Register Owner/Foodie form -->
-        <form [formGroup]="form" (ngSubmit)="submit()">
+        <!-- Show spinner on submit for loading -->
+        <app-spinner *ngIf="isDataLoading; else userAdded" class="spinner-overlay">
+        </app-spinner>
 
-            <!-- show error/success snack-bar -->
-            <app-snack-bar *ngIf="showSnackBar"></app-snack-bar>
-            <!-- Owner/Foodie Name -->
-            <div class="form-group">
-                <label for="name"> Name </label>
-                <input type="text" formControlName="name" name="name" id="name" placeholder="First and last Name">
-                <!--Form error from UI -->
-                <span *ngIf="name?.touched && name?.errors" class="invalid-input">
-                    <span *ngIf="name?.errors?.['required']">{{"error.nameRequired" | translate}}</span>
-                    <span *ngIf="name?.errors?.['minlength']">{{"error.minimumLength" | translate}}</span>
-                    <span *ngIf="name?.errors?.['maxlength']">{{"error.maximumLength" | translate}}</span>
-                </span>
-            </div>
+        <ng-template #userAdded>
+            <!-- Register Owner/Foodie form -->
+            <form [formGroup]="form" (ngSubmit)="submit()">
 
-            <!-- Owner/Foodie email -->
-            <div class="form-group">
-                <label for="email"> Email </label>
-                <input type="text" formControlName="email" name="email" id="email" placeholder="Enter Email">
-                <!--Form error from UI -->
-                <span *ngIf="email?.touched && email?.errors" class="invalid-input">
-                    <span *ngIf="email?.errors?.['required']">{{"error.emailRequired" | translate}}</span>
-                    <span *ngIf="email?.errors?.['email']">{{"error.invalidEmail" | translate}}</span>
-                </span>
-            </div>
+                <!-- show error/success snack-bar -->
+                <app-snack-bar *ngIf="showSnackBar"></app-snack-bar>
+                <!-- Owner/Foodie Name -->
+                <div class="form-group">
+                    <label for="name"> Name </label>
+                    <input type="text" formControlName="name" name="name" id="name" placeholder="First and last Name">
+                    <!--Form error from UI -->
+                    <span *ngIf="name?.touched && name?.errors" class="invalid-input">
+                        <span *ngIf="name?.errors?.['required']">{{"error.nameRequired" | translate}}</span>
+                        <span *ngIf="name?.errors?.['minlength']">{{"error.minimumLength" | translate}}</span>
+                        <span *ngIf="name?.errors?.['maxlength']">{{"error.maximumLength" | translate}}</span>
+                    </span>
+                </div>
 
-            <!-- Owner/Foodie password -->
-            <div class="form-group">
-                <label for="password"> Password </label>
-                <input type="password" formControlName="password" name="password" id="password"
-                    placeholder="Enter a strong password">
-                <!--Form error from UI -->
-                <span *ngIf="password?.touched && password?.errors" class="invalid-input">
-                    <span *ngIf="password?.errors?.['required']">{{"error.passwordRequired" | translate}}</span>
-                    <span *ngIf="password?.errors?.['password']">{{"error.invalidPassword" | translate}}</span>
-                </span>
-            </div>
+                <!-- Owner/Foodie email -->
+                <div class="form-group">
+                    <label for="email"> Email </label>
+                    <input type="text" formControlName="email" name="email" id="email" placeholder="Enter Email">
+                    <!--Form error from UI -->
+                    <span *ngIf="email?.touched && email?.errors" class="invalid-input">
+                        <span *ngIf="email?.errors?.['required']">{{"error.emailRequired" | translate}}</span>
+                        <span *ngIf="email?.errors?.['email']">{{"error.invalidEmail" | translate}}</span>
+                    </span>
+                </div>
 
-            <!-- Owner restaurantName -->
-            <div *ngIf="isOwner" class="form-group">
-                <label for="restaurantName"> Restaurant Name </label>
-                <input type="text" formControlName="restaurantName" name="restaurantName" id="restaurantName"
-                    placeholder="Enter Restaurant Name">
-                <!--Form error from UI -->
-                <span *ngIf="restaurantName?.touched && restaurantName?.errors" class="invalid-input">
-                    <span *ngIf="restaurantName?.errors?.['required']">{{"error.restaurantNameRequired" |
-                        translate}}</span>
-                    <span *ngIf="restaurantName?.errors?.['minlength']">{{"error.minimumLength" | translate}}</span>
-                    <span *ngIf="restaurantName?.errors?.['maxlength']">{{"error.maximumLength" | translate}}</span>
-                </span>
-            </div>
+                <!-- Owner/Foodie password -->
+                <div class="form-group">
+                    <label for="password"> Password </label>
+                    <input type="password" formControlName="password" name="password" id="password"
+                        placeholder="Enter a strong password">
+                    <!--Form error from UI -->
+                    <span *ngIf="password?.touched && password?.errors" class="invalid-input">
+                        <span *ngIf="password?.errors?.['required']">{{"error.passwordRequired" | translate}}</span>
+                        <span *ngIf="password?.errors?.['password']">{{"error.invalidPassword" | translate}}</span>
+                    </span>
+                </div>
 
-            <!-- Owner Restraurant Image -->
-            <div class="form-group" *ngIf="isOwner">
-                <label class="images">Restraurant Image</label>
-                <div class="form-group image-group">
-                    <input type="file" accept="image/*" (change)="onImageSelected($event)" />
-                    <div class="preview" *ngIf="imagePreview">
-                        <p>Preview:</p>
-                        <img [src]="imagePreview" alt="Image preview" />
+                <!-- Owner restaurantName -->
+                <div *ngIf="isOwner" class="form-group">
+                    <label for="restaurantName"> Restaurant Name </label>
+                    <input type="text" formControlName="restaurantName" name="restaurantName" id="restaurantName"
+                        placeholder="Enter Restaurant Name">
+                    <!--Form error from UI -->
+                    <span *ngIf="restaurantName?.touched && restaurantName?.errors" class="invalid-input">
+                        <span *ngIf="restaurantName?.errors?.['required']">{{"error.restaurantNameRequired" |
+                            translate}}</span>
+                        <span *ngIf="restaurantName?.errors?.['minlength']">{{"error.minimumLength" | translate}}</span>
+                        <span *ngIf="restaurantName?.errors?.['maxlength']">{{"error.maximumLength" | translate}}</span>
+                    </span>
+                </div>
+
+                <!-- Owner Restraurant Image -->
+                <div class="form-group" *ngIf="isOwner">
+                    <label class="images">Restraurant Image</label>
+                    <div class="form-group image-group">
+                        <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+                        <div class="preview" *ngIf="imagePreview">
+                            <p>Preview:</p>
+                            <img [src]="imagePreview" alt="Image preview" />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!---------------Owner address -------------->
-            <h3 *ngIf="isOwner" class="address-header">Address</h3>
+                <!---------------Owner address -------------->
+                <h3 *ngIf="isOwner" class="address-header">Address</h3>
 
-            <div *ngIf="isOwner" id="addressContainer" formGroupName="address">
-                <div class="address-line-1">
-                    <!-- street -->
-                    <div class="form-group">
-                        <label for="street"> Street </label>
-                        <input type="text" formControlName="street" name="street" id="street" placeholder="street">
-                        <!--Form error from UI -->
-                        <span *ngIf="street?.touched && street?.errors" class="invalid-input">
-                            <span *ngIf="street?.errors?.['required']">{{"error.streetRequired" |
-                                translate}}</span>
-                            <span *ngIf="street?.errors?.['minlength']">{{"error.minimumLength" |
-                                translate}}</span>
-                            <span *ngIf="street?.errors?.['maxlength']">{{"error.maximumLength" |
-                                translate}}</span>
-                        </span>
+                <div *ngIf="isOwner" id="addressContainer" formGroupName="address">
+                    <div class="address-line-1">
+                        <!-- street -->
+                        <div class="form-group">
+                            <label for="street"> Street </label>
+                            <input type="text" formControlName="street" name="street" id="street" placeholder="street">
+                            <!--Form error from UI -->
+                            <span *ngIf="street?.touched && street?.errors" class="invalid-input">
+                                <span *ngIf="street?.errors?.['required']">{{"error.streetRequired" |
+                                    translate}}</span>
+                                <span *ngIf="street?.errors?.['minlength']">{{"error.minimumLength" |
+                                    translate}}</span>
+                                <span *ngIf="street?.errors?.['maxlength']">{{"error.maximumLength" |
+                                    translate}}</span>
+                            </span>
+                        </div>
+                        <!-- city -->
+                        <div class="form-group">
+                            <label for="city"> City </label>
+                            <input type="text" formControlName="city" name="city" id="city" placeholder="city">
+                            <!--Form error from UI -->
+                            <span *ngIf="city?.touched && city?.errors" class="invalid-input">
+                                <span *ngIf="city?.errors?.['required']">{{"error.cityRequired" |
+                                    translate}}</span>
+                                <span *ngIf="city?.errors?.['minlength']">{{"error.minimumLength" |
+                                    translate}}</span>
+                                <span *ngIf="city?.errors?.['maxlength']">{{"error.maximumLength" |
+                                    translate}}</span>
+                            </span>
+                        </div>
+                        <!-- state -->
+                        <div class="form-group">
+                            <label for="state"> State </label>
+                            <input type="text" formControlName="state" name="state" id="state" placeholder="state">
+                            <!--Form error from UI -->
+                            <span *ngIf="state?.touched && state?.errors" class="invalid-input">
+                                <span *ngIf="state?.errors?.['required']">{{"error.stateRequired" |
+                                    translate}}</span>
+                                <span *ngIf="state?.errors?.['minlength']">{{"error.minimumLength" |
+                                    translate}}</span>
+                                <span *ngIf="state?.errors?.['maxlength']">{{"error.maximumLength" |
+                                    translate}}</span>
+                            </span>
+                        </div>
                     </div>
-                    <!-- city -->
-                    <div class="form-group">
-                        <label for="city"> City </label>
-                        <input type="text" formControlName="city" name="city" id="city" placeholder="city">
-                        <!--Form error from UI -->
-                        <span *ngIf="city?.touched && city?.errors" class="invalid-input">
-                            <span *ngIf="city?.errors?.['required']">{{"error.cityRequired" |
-                                translate}}</span>
-                            <span *ngIf="city?.errors?.['minlength']">{{"error.minimumLength" |
-                                translate}}</span>
-                            <span *ngIf="city?.errors?.['maxlength']">{{"error.maximumLength" |
-                                translate}}</span>
-                        </span>
-                    </div>
-                    <!-- state -->
-                    <div class="form-group">
-                        <label for="state"> State </label>
-                        <input type="text" formControlName="state" name="state" id="state" placeholder="state">
-                        <!--Form error from UI -->
-                        <span *ngIf="state?.touched && state?.errors" class="invalid-input">
-                            <span *ngIf="state?.errors?.['required']">{{"error.stateRequired" |
-                                translate}}</span>
-                            <span *ngIf="state?.errors?.['minlength']">{{"error.minimumLength" |
-                                translate}}</span>
-                            <span *ngIf="state?.errors?.['maxlength']">{{"error.maximumLength" |
-                                translate}}</span>
-                        </span>
+                    <div class="address-line-2">
+                        <!-- pincode -->
+                        <div class="form-group">
+                            <label for="pincode"> Pincode </label>
+                            <input type="text" formControlName="pincode" name="pincode" id="pincode"
+                                placeholder="pincode">
+                            <!--Form error from UI -->
+                            <span *ngIf="pincode?.touched && pincode?.errors" class="invalid-input">
+                                <span *ngIf="pincode?.errors?.['required']">{{"error.pinCodeRequired" |
+                                    translate}}</span>
+                                <span *ngIf="pincode?.errors?.['minlength']">{{"error.minimumLength" |
+                                    translate}}</span>
+                                <span *ngIf="pincode?.errors?.['maxlength']">{{"error.maximumLength" |
+                                    translate}}</span>
+                            </span>
+                        </div>
+                        <!-- country -->
+                        <div class="form-group">
+                            <label for="country"> Country </label>
+                            <input type="text" formControlName="country" name="country" id="country"
+                                placeholder="country">
+                            <!--Form error from UI -->
+                            <span *ngIf="country?.touched && country?.errors" class="invalid-input">
+                                <span *ngIf="country?.errors?.['required']">{{"error.countryRequired" |
+                                    translate}}</span>
+                                <span *ngIf="country?.errors?.['minlength']">{{"error.minimumLength" |
+                                    translate}}</span>
+                                <span *ngIf="country?.errors?.['maxlength']">{{"error.maximumLength" |
+                                    translate}}</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
-                <div class="address-line-2">
-                    <!-- pincode -->
-                    <div class="form-group">
-                        <label for="pincode"> Pincode </label>
-                        <input type="text" formControlName="pincode" name="pincode" id="pincode" placeholder="pincode">
-                        <!--Form error from UI -->
-                        <span *ngIf="pincode?.touched && pincode?.errors" class="invalid-input">
-                            <span *ngIf="pincode?.errors?.['required']">{{"error.pinCodeRequired" |
-                                translate}}</span>
-                            <span *ngIf="pincode?.errors?.['minlength']">{{"error.minimumLength" |
-                                translate}}</span>
-                            <span *ngIf="pincode?.errors?.['maxlength']">{{"error.maximumLength" |
-                                translate}}</span>
-                        </span>
-                    </div>
-                    <!-- country -->
-                    <div class="form-group">
-                        <label for="country"> Country </label>
-                        <input type="text" formControlName="country" name="country" id="country" placeholder="country">
-                        <!--Form error from UI -->
-                        <span *ngIf="country?.touched && country?.errors" class="invalid-input">
-                            <span *ngIf="country?.errors?.['required']">{{"error.countryRequired" |
-                                translate}}</span>
-                            <span *ngIf="country?.errors?.['minlength']">{{"error.minimumLength" |
-                                translate}}</span>
-                            <span *ngIf="country?.errors?.['maxlength']">{{"error.maximumLength" |
-                                translate}}</span>
-                        </span>
-                    </div>
+
+                <!---------------Submit btn -------------->
+                <div class="submit-btn-container">
+                    <button type="submit" class="submit-btn">Register</button>
                 </div>
-            </div>
 
-            <!---------------Submit btn -------------->
-            <div class="submit-btn-container">
-                <button type="submit" class="submit-btn">Register</button>
-            </div>
+            </form>
+        </ng-template>
 
-        </form>
     </div>
 </div>
