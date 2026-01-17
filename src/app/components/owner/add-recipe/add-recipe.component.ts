@@ -18,6 +18,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { CustomError } from 'src/app/common/enums/CustomError';
 import { SharedService } from 'src/app/services/shared.service';
 import { TokenService } from 'src/app/services/token.service';
+import { RecipeDetails } from 'src/app/common/interfaces/User';
 
 @Component({
   selector: 'app-add-recipe',
@@ -157,9 +158,12 @@ export class AddRecipeComponent implements OnInit {
 
     // call your API service to send this formData
     this.recipeService.addRecipe(formData).subscribe({
-      next: (response) => {
+      next: (response: RecipeDetails | any) => {
         this.isDataLoading = false;
         console.log('Recipe added successfully', response);
+        let recipes = JSON.parse(localStorage.getItem('myRecipes') || ' []');
+        let updatedRecipes = [...recipes, response._id];
+        localStorage.setItem('myRecipes', JSON.stringify(updatedRecipes));
         this.showSnackBar = true; // Show success message
         this.sharedService.showSnackBar({
           isSuccess: true,

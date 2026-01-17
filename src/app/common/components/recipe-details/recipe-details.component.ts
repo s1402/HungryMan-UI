@@ -25,7 +25,7 @@ export class RecipeDetailsComponent implements OnInit, OnDestroy {
     private readonly recipeService: RecipeService,
     private readonly favoritesService: FavoritesService,
     private readonly authService: AuthService,
-    private readonly tokenService: TokenService
+    protected readonly tokenService: TokenService
   ) {}
 
   ngOnInit(): void {

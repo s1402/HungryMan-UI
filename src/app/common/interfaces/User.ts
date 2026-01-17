@@ -30,7 +30,7 @@ export interface RecipeDetails {
   vegetarian: boolean;
   views?: string[];
   _id: string;
-  __v: number 
+  __v: number, 
 }
 
 export interface ImageUrl {

@@ -10,8 +10,8 @@
     </div>
 
     <!-- Add to favorites -->
-    <button class="favorites" (click)="updateFavorites()">
-      <p *ngIf="!isFavorite; else notFavorite">
+    <button class="favorites" (click)="updateFavorites()" [class.disabled]="!tokenService.isFoodieLoggedIn()" [disabled]="!tokenService.isFoodieLoggedIn()">
+      <p *ngIf="!isFavorite; else notFavorite" >
         Add to favorites
       </p>
       <ng-template #notFavorite>
